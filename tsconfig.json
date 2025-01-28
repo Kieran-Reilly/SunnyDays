@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
-      "target": "ESNext",
-      "module": "ESNext",
-      "jsx": "react-jsx",
-      "moduleResolution": "Node",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
-    }
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
   }
   
