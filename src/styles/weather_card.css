@@ -1,0 +1,66 @@
+@media only screen and (max-width: 768px) {
+    .card-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header-info h3 {
+        padding: 0.25rem 0;
+    }
+
+    .card-header-buttons {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .card-header-buttons button {
+        border: none;
+        min-height: 3rem;
+        min-width: 3rem;
+        margin: 0 0.25rem;
+    }
+
+    .card-header-buttons button:active {
+        background-color: white;
+    }
+
+    .card-header-buttons button:active svg {
+        fill: black;
+        background-color: white;
+    }
+
+    .card-body {
+        margin: 1rem 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body-highlight {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 0.25rem 0;
+    }
+
+    .card-body-highlight p {
+        font-size: 4rem;
+        font-weight: bold;
+    }
+
+    .card-body-info {
+        display: flex;
+        flex-direction: row;
+        overflow: scroll;
+    }
+
+    .card-body-info-panel {
+        min-height: 6rem;
+        min-width: 7rem;
+        margin: 0 0.5rem;
+        display: flex;
+        flex-direction: column;
+        /* get content diplaying correctly */
+    }
+}
