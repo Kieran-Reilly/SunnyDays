@@ -1,9 +1,12 @@
 import { useState } from "react";
 
 import WeatherCard from "./components/weather_card";
+import { CurrentWeather} from "./types/weatherTypes";
 
-export default function app() {
+export default function app(weather: CurrentWeather) {
+    const currentDate = new Date();
+    const headerInfo = {date: currentDate, ...weather};
     return (
-        <WeatherCard date={new Date()} location="Krung Thep Maha Nakhon" feelsLike="30°C" description="light rain" tempreture="28°C"/>
+        <WeatherCard {...headerInfo} />
     );
 }

@@ -1,33 +1,73 @@
-import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaRegSun, FaTemperatureLow, FaEye } from "react-icons/fa6";
+import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
+import { CurrentWeather} from "../types/weatherTypes";
 
-interface weatherCardHeaderInfo {
-    date: Date, 
-    location: string, 
-    feelsLike: string, 
-    description: string,
-    tempreture: string
+
+/*
+    Each direction is 11.25 (360 / 32) degrees farther than the previous. 
+    For example, N (north) is 0 degrees, NbE (north by east) is 11.25 degrees, 
+    NNE (north-northeast) is 22.5 degrees, etc.
+
+    so given the degrees, simply divide by 11.25 and round to the nearest int to find 
+    corresponding direction i.e. 180 / 11.25 = 16 -> windDirections[16] = S
+*/
+const windDirections = [
+    "N",
+    "NbE",
+    "NNE",
+    "NEbN",
+    "NE",
+    "NEbE",
+    "ENE",
+    "EbN",
+    "E",
+    "EbS",
+    "ESE",
+    "SEbE",
+    "SE",
+    "SEbS",
+    "SSE",
+    "SbE",
+    "S",
+    "SbW",
+    "SSW",
+    "SWbS",
+    "SW",
+    "SWbW",
+    "WSW",
+    "WbS",
+    "W",
+    "WbN",
+    "WNW",
+    "NWbW",
+    "NW",
+    "NWbN",
+    "NNW",
+    "Nb"
+]
+
+function fetchWindDirection(degrees: number) {
+    const index = Math.round(degrees/11.25);
+    return windDirections[index];
 }
 
-export default function WeatherCard({date, location, feelsLike, description, tempreture}: weatherCardHeaderInfo) {
-    //TODO: bring in API to begin configuring how the component will interact with the data
-    let forecastBtnText = "5 Day Forecast";
-
-    const expectedRain = "0.16mm (26%)";
-    const windSpeed = "100m/s";
-    const windDirection = "W";
-    const pressure = "1003hPa";
-    const humidity = "74%";
-    const uv = 1;
-    const dewPoint = "3°C";
-    const visibility = "10.0km";
+export default function WeatherCard(headerInfo: CurrentWeather) {
+    const main = headerInfo.weather[0].main;
+    const description = headerInfo.weather[0].description;
+    const iconCode = headerInfo.weather[0].icon;
+    
+    const currentDate = headerInfo.date || new Date();
+    const rain = headerInfo?.rain != null ? headerInfo?.rain["1h"] : 0;
+    const snow = headerInfo?.snow != null ? headerInfo?.snow["1h"] : 0;
+    const windDirection = fetchWindDirection(headerInfo.wind.deg);
+    const visibility = headerInfo.visibility/1000;
 
     return(
         <>
             <div className="card-header">
                 <span className="card-header-info">
-                    <p>{date.toDateString()}, {date.getHours()}:{date.getMinutes()}</p>
-                    <h3>{location}</h3>
-                    <p>Feels Like {feelsLike}, {description}</p>
+                    <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
+                    <h3>{headerInfo.name}</h3>
+                    <p>Feels Like {headerInfo.main.feels_like}°C, {description}</p>
                 </span>
                 <span className="card-header-buttons">
                     <button><FaChevronDown /></button>
@@ -36,43 +76,42 @@ export default function WeatherCard({date, location, feelsLike, description, tem
             </div>
             <div className="card-body">
                 <div className="card-body-highlight">
-                    <span>weather icon</span>
-                    <p>{tempreture}</p>
+                    <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
+                    <p>{headerInfo.main.temp}°C</p>
                 </div>
                 <div className="card-body-info">
-                    <span className="card-body-info-panel">
-                        <p>Expected amount of rain</p>
-                        <h4>{expectedRain}</h4>
-                        <FaCloudRain />
-                    </span>
+                    {rain !== 0 ? (
+                        <span className="card-body-info-panel">
+                            <p>Expected amount of rain</p>
+                            <h4>{rain}mm/h</h4>
+                            <FaCloudRain />
+                        </span>
+                    ) : null}
+                    {snow !== 0 ? (
+                        <span className="card-body-info-panel">
+                            <p>Expected amount of snow</p>
+                            <h4>{snow}mm/h</h4>
+                            <FaRegSnowflake />
+                        </span>
+                    ) : null}
                     <span className="card-body-info-panel">
                         <p>Wind speed & direction</p>
-                        <h4>{windSpeed}{windDirection}</h4>
+                        <h4>{headerInfo.wind.speed}m/s {windDirection}</h4>
                         <FaWind />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Pressure</p>
-                        <h4>{pressure}</h4>
+                        <h4>{headerInfo.main.pressure}hPa</h4>
                         <FaGaugeHigh />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Humidity</p>
-                        <h4>{humidity}</h4>
+                        <h4>{headerInfo.main.humidity}%</h4>
                         <FaDroplet />
                     </span>
                     <span className="card-body-info-panel">
-                        <p>UV</p>
-                        <h4>{uv}</h4>
-                        <FaRegSun />
-                    </span>
-                    <span className="card-body-info-panel">
-                        <p>Dew point</p>
-                        <h4>{dewPoint}</h4>
-                        <FaTemperatureLow />
-                    </span>
-                    <span className="card-body-info-panel">
                         <p>Visibility</p>
-                        <h4>{visibility}</h4>
+                        <h4>{visibility}km</h4>
                         <FaEye />
                     </span>
                 </div>
