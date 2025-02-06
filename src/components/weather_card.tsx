@@ -1,49 +1,7 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { CurrentWeather} from "../types/weatherTypes";
+import { CurrentWeather, windDirections} from "../types/weatherTypes";
+import { useState } from "react";
 
-
-/*
-    Each direction is 11.25 (360 / 32) degrees farther than the previous. 
-    For example, N (north) is 0 degrees, NbE (north by east) is 11.25 degrees, 
-    NNE (north-northeast) is 22.5 degrees, etc.
-
-    so given the degrees, simply divide by 11.25 and round to the nearest int to find 
-    corresponding direction i.e. 180 / 11.25 = 16 -> windDirections[16] = S
-*/
-const windDirections = [
-    "N",
-    "NbE",
-    "NNE",
-    "NEbN",
-    "NE",
-    "NEbE",
-    "ENE",
-    "EbN",
-    "E",
-    "EbS",
-    "ESE",
-    "SEbE",
-    "SE",
-    "SEbS",
-    "SSE",
-    "SbE",
-    "S",
-    "SbW",
-    "SSW",
-    "SWbS",
-    "SW",
-    "SWbW",
-    "WSW",
-    "WbS",
-    "W",
-    "WbN",
-    "WNW",
-    "NWbW",
-    "NW",
-    "NWbN",
-    "NNW",
-    "Nb"
-]
 
 function fetchWindDirection(degrees: number) {
     const index = Math.round(degrees/11.25);
@@ -51,6 +9,29 @@ function fetchWindDirection(degrees: number) {
 }
 
 export default function WeatherCard(headerInfo: CurrentWeather) {
+    const [isOpen, setIsOpen] = useState(true);
+
+    /**
+     * Toggle Card Click handler which updates the isOpen state of the card
+     */
+    function toggleCard() {
+        setIsOpen(!isOpen);
+    }
+
+    /**
+     * Add To Favourites Click handler which will add/remove this location from favourites
+     */
+    function addToFavourites(event: React.MouseEvent) {
+        console.log("added to favourites", event);
+    }
+
+    /**
+     * Show five day forecast button handler which will launch the fiveDayForecast component for the specific location
+     */
+    function showFiveDayForecast(event: React.MouseEvent) {
+        console.log("showing five day forecast", event);
+    }
+
     const main = headerInfo.weather[0].main;
     const description = headerInfo.weather[0].description;
     const iconCode = headerInfo.weather[0].icon;
@@ -64,17 +45,28 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
     return(
         <>
             <div className="card-header">
-                <span className="card-header-info">
-                    <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
-                    <h3>{headerInfo.name}</h3>
-                    <p>Feels Like {headerInfo.main.feels_like}°C, {description}</p>
-                </span>
+                { isOpen == true ? (
+                    <span className="card-header-info">
+                        <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
+                        <h3>{headerInfo.name}</h3>
+                        <p>Feels Like {headerInfo.main.feels_like}°C, {description}</p>
+                    </span>
+                ) : (
+                    <span className="card-header-info" data-is-open="false">
+                        <h3>{headerInfo.name}</h3>
+                        <span>
+                            <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
+                            <p>{headerInfo.main.temp}°C</p>
+                        </span>
+                    </span>
+                ) }
                 <span className="card-header-buttons">
-                    <button><FaChevronDown /></button>
-                    <button><FaHeart /></button>
+                    <button><FaChevronDown onClick={toggleCard}/></button>
+                    <button><FaHeart onClick={addToFavourites}/></button>
                 </span>
             </div>
-            <div className="card-body">
+            { isOpen == true ? (
+                <div className="card-body">
                 <div className="card-body-highlight">
                     <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
                     <p>{headerInfo.main.temp}°C</p>
@@ -116,7 +108,10 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
                     </span>
                 </div>
             </div>
-            {/* <div className="card-body"><button>{forecastBtnText}</button></div> */}
+            ) : null}
+            { isOpen == true ? (
+                <div className="card-body"><button onClick={showFiveDayForecast}>5 Day Forecast</button></div>
+            ) : null }
         </>
     )
 }
