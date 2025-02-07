@@ -1,12 +1,6 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { CurrentWeather, windDirections} from "../types/weatherTypes";
+import { CurrentWeather, fetchWindDirection} from "../types/weatherTypes";
 import { useState } from "react";
-
-
-function fetchWindDirection(degrees: number) {
-    const index = Math.round(degrees/11.25);
-    return windDirections[index];
-}
 
 export default function WeatherCard(headerInfo: CurrentWeather) {
     const [isOpen, setIsOpen] = useState(true);
@@ -32,7 +26,6 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
         console.log("showing five day forecast", event);
     }
 
-    const main = headerInfo.weather[0].main;
     const description = headerInfo.weather[0].description;
     const iconCode = headerInfo.weather[0].icon;
     
@@ -61,8 +54,8 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
                     </span>
                 ) }
                 <span className="card-header-buttons">
-                    <button><FaChevronDown onClick={toggleCard}/></button>
-                    <button><FaHeart onClick={addToFavourites}/></button>
+                    <button className="icon-btn"><FaChevronDown onClick={toggleCard}/></button>
+                    <button className="icon-btn"><FaHeart onClick={addToFavourites}/></button>
                 </span>
             </div>
             { isOpen == true ? (

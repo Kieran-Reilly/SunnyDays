@@ -1,0 +1,100 @@
+@media only screen and (max-width: 768px) {
+    .forecast-header-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .forecast-header h4 {
+        text-align: center;
+    }
+
+    /* .forecast-tab-header p {
+        font-size: small;
+    }
+
+    .forecast-tab-header-date {
+        width: 4.85rem;
+        max-width: 4.85rem;
+    }
+
+    .forecast-tab-header {
+        display: flex;
+        flex-direction: row;
+        min-height: 3rem;
+        align-items: center;
+    }
+
+    .forecast-tab-header span {
+        display: flex;
+        flex-direction: row;
+        min-height: 3rem;
+        align-items: center;
+    }
+
+    .forecast-tab-header-temps {
+        background-color: pink;
+        width: 6.65rem;
+    }
+
+    .forecast-tab {
+        width: 100%;
+    } */
+
+    .forecast-tab {
+        width: 100vw;
+    }
+
+    .forecast-tab-header, .forecast-tab-header span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .forecast-tab-header {
+
+    }
+
+    .forecast-tab-header-date {
+        
+    }
+
+    .forecast-tab-header-temps {
+        flex: 1
+    }
+    
+
+    /* .forecast-tab-header {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .forecast-tab-header span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .forecast-tab-header-date, .forecast-tab-header span{
+        grid-row-start: 0;
+        grid-row-end: 1;
+    }
+
+    .forecast-tab-header-date {
+        grid-column-start: 0;
+        grid-column-end: 1;
+        align-self: center;
+    }
+
+    .forecast-tab-header-temps {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        justify-self: center;
+    }
+
+    .forcast-tab-header-main {
+        grid-column-start: 3;
+        grid-column-end: 4;
+    } */
+}

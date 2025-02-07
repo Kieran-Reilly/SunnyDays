@@ -45,22 +45,6 @@
         flex-direction: row;
     }
 
-    .card-header-buttons button {
-        border: none;
-        min-height: 3rem;
-        min-width: 3rem;
-        margin: 0 0.25rem;
-    }
-
-    .card-header-buttons button:active {
-        background-color: white;
-    }
-
-    .card-header-buttons button:active svg {
-        fill: black;
-        background-color: white;
-    }
-
     .card-body {
         margin: 1rem 0;
         display: flex;
