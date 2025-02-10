@@ -120,7 +120,9 @@ export interface ForecastData {
         "pressure": number,
         "humidity": number,
         "sea_level": number,
-        "grnd_level": number
+        "grnd_level": number,
+        "max_day_temp"?: number,
+        "min_day_temp"?: number,
     },
     "visibility": number,
     "wind": {

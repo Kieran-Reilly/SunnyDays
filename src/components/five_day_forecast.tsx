@@ -16,12 +16,14 @@ function ForecastCard({ forecastData }: { forecastData: ForecastData[] }) {
         const month = getMonth(date.getMonth());
 
         return (
-            <div key={item.dt} className="forecast-tab">
+            <div key={item.dt} className="forecast-tab" data-index={forecastData.indexOf(item)} >
                 <div className="forecast-tab-header">
                     <p className="forecast-tab-header-date">{dayOfTheWeek}, {month} {date.getDate()}</p>
                     <span className="forecast-tab-header-temps">
                         <img src={`http://openweathermap.org/img/wn/${weatherInfo.icon}.png`}></img>
-                        <p>{Math.round(item.main.temp_max)} / {Math.round(item.main.temp_min)}°C</p>
+                        { item.main.max_day_temp != null && item.main.min_day_temp != null ? (
+                            <p>{Math.round(item.main.max_day_temp)} / {Math.round(item.main.min_day_temp)}°C</p>
+                        ) : null}
                     </span>
                     <span className="forcast-tab-header-main">
                         <p>{item.weather[0].main}</p>
@@ -29,7 +31,7 @@ function ForecastCard({ forecastData }: { forecastData: ForecastData[] }) {
                     </span>
                 </div>
                 <div className="forecast-tab-body">
-
+                    {forecastData.indexOf(item)}
                 </div>
             </div>
         )
@@ -51,6 +53,11 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
         console.log("added to favourites", event);
     }
 
+    function returnToCurrentForecasts(event: React.MouseEvent) {
+         //TODO hook up return button
+         console.log("Returning to current forecasts", event);
+    }
+
     const forecastData = buildForecastData(forecastInfo);
     
 
@@ -63,7 +70,10 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
                 </span>
                 <h4>5-Day Forecast</h4>
             </div>
-            <ForecastCard forecastData={forecastData} />
+            <div className="forecast-tabs">
+                <ForecastCard forecastData={forecastData} />
+            </div>
+            <button onClick={returnToCurrentForecasts}>Return</button>
         </>
     )
 }
@@ -85,9 +95,31 @@ function buildForecastData(forecastInfo: Forecast) {
         const itemDate = new Date(item.dt * 1000);
 
         if (itemDate.getTime() == nextDay.getTime()) {
+            //find highest and lowest temps for the day
+            let lowestTemp = item.main.temp_min;
+            let highestTemp = item.main.temp_max;
+            for (const listItem of forecastInfo.list) {
+                const listItemDate = new Date(listItem.dt * 1000);
+                if (listItemDate.getDate() != itemDate.getDate()) {
+                    continue;
+                }
+
+                if (listItem.main.temp_min < lowestTemp) {
+                    lowestTemp = listItem.main.temp_min;
+                };
+
+                if (listItem.main.temp_max > highestTemp) {
+                    highestTemp = listItem.main.temp_max;
+                }
+            }
+            
+            item.main.max_day_temp = highestTemp;
+            item.main.min_day_temp = lowestTemp;
+
             //add this item to forecastData
             forecastData.push(item);
             nextDay = getNextDay(nextDay);
+            continue;
         }
 
         if (forecastInfo.list.indexOf(item) === forecastInfo.list.length - 1 && forecastData.length == 4) {
@@ -95,6 +127,8 @@ function buildForecastData(forecastInfo: Forecast) {
             forecastData.push(item);
         }
     }
+
+
 
     return forecastData;
 }
