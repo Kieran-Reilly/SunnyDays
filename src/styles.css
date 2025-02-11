@@ -1,4 +1,5 @@
 @import "./styles/weather_card.css";
+@import "./styles/five_day_forecast.css";
 
 * {
     box-sizing: border-box;
@@ -7,14 +8,61 @@
     background: black;
     border-color: white;
   }
+
+  html {
+    height: 100%;
+    width: 100%;
+  }
   
   body {
     font-family: sans-serif;
-    margin: 1.25rem;
+    margin: 0;
     padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
   }
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
   }
+
+  .icon-btn {
+    border: none;
+    min-height: 3rem;
+    min-width: 3rem;
+    margin: 0 0.25rem;
+  }
+
+  .icon-btn:active {
+    background-color: white;
+  }
+
+  .icon-btn:active svg {
+    fill: black;
+    background-color: white;
+    pointer-events: none;
+  }
+
+
+
+  /* APP STYLES STARTS*/
+
+  .app-header, .app-footer {
+    height: 10%;    
+    background-color: pink;
+  }
+
+  .app-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  /* APP STYLES ENDS*/

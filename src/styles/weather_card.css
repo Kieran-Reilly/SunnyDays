@@ -4,31 +4,45 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        min-height: 4.125rem
     }
 
     .card-header-info h3 {
         padding: 0.25rem 0;
     }
 
+    .card-header-info[data-is-open='false'] {
+        max-height: 4.125rem;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+    }
+
+    .card-header-info[data-is-open='false'] span {
+        max-height: 4.125rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .card-header-info[data-is-open='false'] h3 {
+        max-height: 4.125rem;
+        overflow-wrap: anywhere;
+        text-overflow: ellipsis;
+    }
+
+    .card-header-info[data-is-open='false'] p {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
     .card-header-buttons {
         display: flex;
         flex-direction: row;
-    }
-
-    .card-header-buttons button {
-        border: none;
-        min-height: 3rem;
-        min-width: 3rem;
-        margin: 0 0.25rem;
-    }
-
-    .card-header-buttons button:active {
-        background-color: white;
-    }
-
-    .card-header-buttons button:active svg {
-        fill: black;
-        background-color: white;
     }
 
     .card-body {
@@ -61,6 +75,7 @@
         margin: 0 0.5rem;
         display: flex;
         flex-direction: column;
-        /* get content diplaying correctly */
+        align-items: center;
+        text-align: center;
     }
 }
