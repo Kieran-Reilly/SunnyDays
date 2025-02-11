@@ -48,3 +48,21 @@
     background-color: white;
     pointer-events: none;
   }
+
+
+
+  /* APP STYLES STARTS*/
+
+  .app-header, .app-footer {
+    height: 10%;    
+    background-color: pink;
+  }
+
+  .app-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  /* APP STYLES ENDS*/

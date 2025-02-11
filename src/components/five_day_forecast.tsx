@@ -1,19 +1,60 @@
 import { FaChevronDown, FaChevronUp, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { Forecast, ForecastData, getNextDay, getDayOfWeek, getMonth } from "../types/weatherTypes";
+import { Forecast, ForecastData, getNextDay, getDayOfWeek, getMonth, fetchWindDirection } from "../types/weatherTypes";
 import { useState } from "react";
 
 function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, toggleTabs}: {item: ForecastData, date: Date, dayOfTheWeek: string, month: string, weatherInfoIcon: string, toggleTabs: React.MouseEventHandler}) {
+    const rain = item?.rain != null ? item?.rain["3h"] : 0;
+    const snow = item?.snow != null ? item?.snow["3h"] : 0;
+    const windDirection = fetchWindDirection(item.wind.deg);
+    const visibility = item.visibility/1000;
+    
     return (
         <>
-            <div>
-                <p>{dayOfTheWeek}, {month} {date.getDate()}</p>
+            <div className="forecast-body-header">
+                <h3>{dayOfTheWeek}, {month} {date.getDate()}</h3>
                 <button className="icon-btn" onClick={toggleTabs}><FaChevronUp /></button>
             </div>
-            <div>
+            <div className="forecast-body-main">
                 <img src={`http://openweathermap.org/img/wn/${weatherInfoIcon}.png`}></img>
                 { item.main.max_day_temp != null && item.main.min_day_temp != null ? (
                     <p>High of {Math.round(item.main.max_day_temp)}, Low of {Math.round(item.main.min_day_temp)}°C</p>
                 ) : null}
+            </div>
+            <div className="forecast-body-details">
+                {rain !== 0 ? (
+                    <span className="forecast-body-line">
+                        <FaCloudRain />
+                        <h4>Expected amount of rain: </h4>
+                        <p>{rain}mm/h</p>
+                    </span>
+                ) : null}
+                {snow !== 0 ? (
+                    <span className="forecast-body-line">
+                        <FaRegSnowflake />
+                        <h4>Expected amount of snow: </h4>
+                        <p>{snow}mm/h</p>
+                    </span>
+                ) : null}
+                <span className="forecast-body-line">
+                    <FaWind />
+                    <h4>Wind speed & direction: </h4>
+                    <p>{item.wind.speed}m/s {windDirection}</p>
+                </span>
+                <span className="forecast-body-line">
+                    <FaGaugeHigh />
+                    <h4>Pressure: </h4>
+                    <p>{item.main.pressure}hPa</p>
+                </span>
+                <span className="forecast-body-line">
+                    <FaDroplet />
+                    <h4>Humidity: </h4>
+                    <p>{item.main.humidity}%</p>
+                </span>
+                <span className="forecast-body-line">
+                    <FaEye />
+                    <h4>Visibility: </h4>
+                    <p>{visibility}km</p>
+                </span>
             </div>
         </>
     )

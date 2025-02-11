@@ -1,6 +1,6 @@
 @media only screen and (max-width: 768px) {
     .forecast-info {
-        min-height: 100%;
+        min-height: 80%;
         display: flex;
         flex-direction: column;
     }
@@ -26,6 +26,9 @@
 
     .forecast-tab {
         width: 100%;
+    }
+
+    .forecast-tab:not([data-active='true']) {
         align-self: center;
     }
 
@@ -56,10 +59,6 @@
         align-items: center;
     }
 
-    .forecast-tab-header {
-        
-    }
-
     .forecast-tab-header-date {
         width: 6.5rem;
         max-width: 6.5rem;
@@ -67,5 +66,31 @@
 
     .forecast-tab-header-temps {
         flex: 1
+    }
+
+    .forecast-body-header, .forecast-body-main, .forecast-body-line, .forecast-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .forecast-body-header h3 {
+        flex: 1;
+    }
+
+    .forecast-body-main {
+        justify-content: space-evenly;
+    }
+
+    .forecast-body-line {
+        margin: 1rem 0;
+    }
+
+    .forecast-body-line * {
+        margin: 0 0.25rem;
+    }
+
+    .forecast-footer {
+        justify-content: space-around;
     }
 }
