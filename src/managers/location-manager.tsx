@@ -1,14 +1,8 @@
+import {Location} from "./../types/weatherTypes"
+
 /**
  * Responsible for retrieving locations either using the navigator.geolocation API or openWeather's geocoding API
  */
-
-interface Location {
-    coords: {
-      latitude: number,
-      longitude: number
-    }
-  }
-
 export async function getCurrentLocation (
     locationRetrievedSuccess: (position: GeolocationPosition) => Location,
     locationRetrievedError: (error: GeolocationPositionError) => Location

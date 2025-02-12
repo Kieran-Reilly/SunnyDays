@@ -49,6 +49,11 @@
     pointer-events: none;
   }
 
+  a[class='icon-btn'] svg {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
 
 
   /* APP STYLES STARTS*/
@@ -56,6 +61,10 @@
   .app-header, .app-footer {
     height: 10%;    
     background-color: pink;
+  }
+
+  .app-main {
+    height: 80%;
   }
 
   .app-footer {

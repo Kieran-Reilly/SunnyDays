@@ -45,7 +45,7 @@
         flex-direction: row;
     }
 
-    .card-body {
+    .card-body, .card-footer {
         margin: 1rem 0;
         display: flex;
         flex-direction: column;

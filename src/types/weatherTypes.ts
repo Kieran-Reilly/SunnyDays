@@ -16,6 +16,10 @@ interface WeatherData {
 export interface CurrentWeather {
     "weather": WeatherData[],
     "date"?: Date,
+    "coord"?: {
+        "lat": number,
+        "lon": number,
+    }
     "main": {
         "temp": number,
         "feels_like": number,
@@ -53,6 +57,51 @@ export interface CurrentWeather {
     "name": string
 }
 
+export interface ForecastData {
+    "weather": WeatherData[],
+    "date"?: Date,
+    "dt": number,
+    "dt_txt": string,
+    "main": {
+        "temp": number,
+        "feels_like": number,
+        "temp_min": number,
+        "temp_max": number,
+        "pressure": number,
+        "humidity": number,
+        "sea_level": number,
+        "grnd_level": number,
+        "max_day_temp"?: number,
+        "min_day_temp"?: number,
+    },
+    "visibility": number,
+    "wind": {
+        "speed": number,
+        "deg": number,
+        "gust": number
+    },
+    "clouds": {
+        "all": number
+    },
+    "rain": {
+        "3h"?: number
+    },
+    "snow": {
+        "3h"?: number
+    }
+}
+
+export interface Forecast {
+    city: {
+        country: string,
+        id: number,
+        name: string,
+        sunrise: number,
+        sunset: number,
+        timezone: number
+    }, 
+    list: ForecastData[]
+}
 
 /*
     Each direction is 11.25 (360 / 32) degrees farther than the previous. 
@@ -106,54 +155,6 @@ export function fetchWindDirection(degrees: number) {
     const index = Math.round(degrees/11.25);
     return windDirections[index];
 }
-
-export interface ForecastData {
-    "weather": WeatherData[],
-    "date"?: Date,
-    "dt": number,
-    "dt_txt": string,
-    "main": {
-        "temp": number,
-        "feels_like": number,
-        "temp_min": number,
-        "temp_max": number,
-        "pressure": number,
-        "humidity": number,
-        "sea_level": number,
-        "grnd_level": number,
-        "max_day_temp"?: number,
-        "min_day_temp"?: number,
-    },
-    "visibility": number,
-    "wind": {
-        "speed": number,
-        "deg": number,
-        "gust": number
-    },
-    "clouds": {
-        "all": number
-    },
-    "rain": {
-        "3h"?: number
-    },
-    "snow": {
-        "3h"?: number
-    }
-}
-
-export interface Forecast {
-    city: {
-        country: string,
-        id: number,
-        name: string,
-        sunrise: number,
-        sunset: number,
-        timezone: number
-    }, 
-    list: ForecastData[]
-}
-
-
 
 const days = [
     "Sun",

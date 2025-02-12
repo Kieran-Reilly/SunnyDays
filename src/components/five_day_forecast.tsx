@@ -99,7 +99,7 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
-export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Forecast }) {
+export default function FiveDayForecast({ forecastInfo, toggleView }: { forecastInfo: Forecast, toggleView: React.MouseEventHandler }) {
     const [activeTab, setActiveTab] = useState(-1);
 
     function toggleTabs(event: React.MouseEvent) {
@@ -123,14 +123,8 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
         console.log("added to favourites", event);
     }
 
-    function returnToCurrentForecasts(event: React.MouseEvent) {
-         //TODO hook up return button
-         console.log("Returning to current forecasts", event);
-    }
-
     const forecastData = buildForecastData(forecastInfo);
     
-
     return(
         <div className="forecast-info">
             <div className="forecast-header">
@@ -144,7 +138,7 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
                 <ForecastCard forecastData={forecastData} toggleTabs={toggleTabs} activeTab={activeTab}/>
             </div>
             <div className="forecast-footer">
-                <button onClick={returnToCurrentForecasts}>Return</button>
+                <button onClick={toggleView}>Return</button>
             </div>
         </div>
     )
