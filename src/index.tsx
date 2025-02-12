@@ -5,7 +5,8 @@ import App from './app';
 import { getCurrentLocation } from './managers/location-manager';
 import { getCurrentWeather } from './managers/weather-manager';
 
-import { CurrentWeather, Location } from './types/weatherTypes';
+import { CurrentWeather } from './types/weatherTypes';
+import { Location } from './types/locationTypes';
 
 
 function locationRetrievedSuccess(position: Location): Location {

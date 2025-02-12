@@ -4,6 +4,7 @@
 
 /**
  * Retrieves the current weather report for a specified location
+ * Reference: https://openweathermap.org/current
  * @param lat {number} - the latitude of the desired location
  * @param lon {number} - the longitude of the desired location
  * @returns result {CurrentWeather} - weather data for the desired location
@@ -24,6 +25,7 @@ export async function getCurrentWeather(lat: number, lon: number) {
 
 /**
  * Retrieves a 5-day forecast for a specified location
+ * Reference: https://openweathermap.org/forecast5#concept
  * @param lat {number} - the latitude of the desired location
  * @param lon {number} - the longitude of the desired location
  * @returns result {ForecastData} - 5-day forecast data for the desired location 

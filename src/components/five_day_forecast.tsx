@@ -1,6 +1,7 @@
 import { FaChevronDown, FaChevronUp, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { Forecast, ForecastData, getNextDay, getDayOfWeek, getMonth, fetchWindDirection } from "../types/weatherTypes";
+import { Forecast, ForecastData,  } from "../types/weatherTypes";
 import { useState } from "react";
+import { fetchWindDirection, getDayOfWeek, getMonth, getNextDay } from "../types/weatherUtils";
 
 function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, toggleTabs}: {item: ForecastData, date: Date, dayOfTheWeek: string, month: string, weatherInfoIcon: string, toggleTabs: React.MouseEventHandler}) {
     const rain = item?.rain != null ? item?.rain["3h"] : 0;
@@ -17,7 +18,7 @@ function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, tog
             <div className="forecast-body-main">
                 <img src={`http://openweathermap.org/img/wn/${weatherInfoIcon}.png`}></img>
                 { item.main.max_day_temp != null && item.main.min_day_temp != null ? (
-                    <p>High of {Math.round(item.main.max_day_temp)}, Low of {Math.round(item.main.min_day_temp)}°C</p>
+                    <p>High of {Math.round(item.main.max_day_temp)}°C, Low of {Math.round(item.main.min_day_temp)}°C</p>
                 ) : null}
             </div>
             <div className="forecast-body-details">

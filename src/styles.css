@@ -74,4 +74,29 @@
     justify-content: space-evenly;
   }
 
+  .search-results {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .search-results li {
+    height: 2rem;
+    margin: 0.5rem 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-results li span {
+    pointer-events: none;
+  }
+
+  .search-result-secondary {
+    color: grey;
+  }
+
   /* APP STYLES ENDS*/

@@ -1,8 +1,15 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { CurrentWeather, fetchWindDirection} from "../types/weatherTypes";
+import { CurrentWeather } from "../types/weatherTypes";
 import { useState } from "react";
+import { fetchWindDirection } from "../types/weatherUtils";
 
-export default function WeatherCard({headerInfo, toggleView}: {headerInfo: CurrentWeather, toggleView: React.MouseEventHandler}) {
+
+export function WeatherCards() {
+
+}
+
+
+export default function WeatherCard({weatherData, toggleView}: {weatherData: CurrentWeather, toggleView: React.MouseEventHandler}) {
     const [isOpen, setIsOpen] = useState(true);
 
     /**
@@ -19,30 +26,30 @@ export default function WeatherCard({headerInfo, toggleView}: {headerInfo: Curre
         console.log("added to favourites", event);
     }
 
-    const description = headerInfo.weather[0].description;
-    const iconCode = headerInfo.weather[0].icon;
+    const description = weatherData.weather[0].description;
+    const iconCode = weatherData.weather[0].icon;
     
-    const currentDate = headerInfo.date || new Date();
-    const rain = headerInfo?.rain != null ? headerInfo?.rain["1h"] : 0;
-    const snow = headerInfo?.snow != null ? headerInfo?.snow["1h"] : 0;
-    const windDirection = fetchWindDirection(headerInfo.wind.deg);
-    const visibility = headerInfo.visibility/1000;
+    const currentDate = weatherData.date || new Date();
+    const rain = weatherData?.rain != null ? weatherData?.rain["1h"] : 0;
+    const snow = weatherData?.snow != null ? weatherData?.snow["1h"] : 0;
+    const windDirection = fetchWindDirection(weatherData.wind.deg);
+    const visibility = weatherData.visibility/1000;
 
     return(
-        <div className='weather-card' data-location={headerInfo.name} data-lat={headerInfo.coord?.lat} data-lon={headerInfo.coord?.lon}>
+        <div className='weather-card' data-location={weatherData.name} data-lat={weatherData.coord?.lat} data-lon={weatherData.coord?.lon}>
             <div className="card-header">
                 { isOpen == true ? (
                     <span className="card-header-info">
                         <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
-                        <h3>{headerInfo.name}</h3>
-                        <p>Feels Like {Math.round(headerInfo.main.feels_like)}°C, {description}</p>
+                        <h3>{weatherData.name}</h3>
+                        <p>Feels Like {Math.round(weatherData.main.feels_like)}°C, {description}</p>
                     </span>
                 ) : (
                     <span className="card-header-info" data-is-open="false">
-                        <h3>{headerInfo.name}</h3>
+                        <h3>{weatherData.name}</h3>
                         <span>
                             <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                            <p>{Math.round(headerInfo.main.temp)}°C</p>
+                            <p>{Math.round(weatherData.main.temp)}°C</p>
                         </span>
                     </span>
                 ) }
@@ -55,7 +62,7 @@ export default function WeatherCard({headerInfo, toggleView}: {headerInfo: Curre
                 <div className="card-body">
                 <div className="card-body-highlight">
                     <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                    <p>{Math.round(headerInfo.main.temp)}°C</p>
+                    <p>{Math.round(weatherData.main.temp)}°C</p>
                 </div>
                 <div className="card-body-info">
                     {rain !== 0 ? (
@@ -74,17 +81,17 @@ export default function WeatherCard({headerInfo, toggleView}: {headerInfo: Curre
                     ) : null}
                     <span className="card-body-info-panel">
                         <p>Wind speed & direction</p>
-                        <h4>{headerInfo.wind.speed}m/s {windDirection}</h4>
+                        <h4>{weatherData.wind.speed}m/s {windDirection}</h4>
                         <FaWind />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Pressure</p>
-                        <h4>{headerInfo.main.pressure}hPa</h4>
+                        <h4>{weatherData.main.pressure}hPa</h4>
                         <FaGaugeHigh />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Humidity</p>
-                        <h4>{headerInfo.main.humidity}%</h4>
+                        <h4>{weatherData.main.humidity}%</h4>
                         <FaDroplet />
                     </span>
                     <span className="card-body-info-panel">
