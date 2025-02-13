@@ -7,7 +7,10 @@ import { getCurrentWeather } from './managers/weather-manager';
 
 import { CurrentWeather } from './types/weatherTypes';
 import { Location } from './types/locationTypes';
+import { openDB } from './managers/favourites-manager';
 
+//Immediately open a connection to LocationsDB indexedDB
+await openDB();
 
 function locationRetrievedSuccess(position: Location): Location {
   return position;

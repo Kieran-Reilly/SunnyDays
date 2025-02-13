@@ -6,6 +6,7 @@ import { getCurrentWeather, getForecast } from "./managers/weather-manager";
 import FiveDayForecast from "./components/five_day_forecast";
 import { getLocation } from "./managers/location-manager";
 import { GoeLocationData } from "./types/locationTypes";
+import { addToDB } from "./managers/favourites-manager";
 
 
 function SearchResult({searchResults, locationSelected}: {searchResults: GoeLocationData[], locationSelected: React.MouseEventHandler}) {
@@ -61,8 +62,7 @@ export default function app(weather: CurrentWeather) {
 
     function handleChange(event: React.BaseSyntheticEvent) {
         if (event.target?.value.trim() == '') {
-            setSearchResults(null);
-            setCurrentWeather(weather);
+            clearLocation();
         }
 
         setSearchString(event.target?.value);
@@ -89,6 +89,7 @@ export default function app(weather: CurrentWeather) {
         setSearchString('');
         setSearchResultsListActive(false);
         setCurrentWeather(weather);
+        setCurrentView("currentWeather");
     }
 
     async function locationSelected(event: React.MouseEvent) {
@@ -100,6 +101,14 @@ export default function app(weather: CurrentWeather) {
 
         //Set currentWeather to fetched weather result
         setCurrentWeather(weatherResult);
+    }
+
+    async function toggleFavourites(event: React.MouseEvent) {
+        console.log("adding to favourites", event);
+
+    //     const target = event.target as HTMLElement;
+    //     const selectedCard = target.parentElement?.parentElement?.parentElement;
+    //     await addToDB({id: Number(selectedCard?.dataset.id), lat: Number(selectedCard?.dataset.id), lon: Number(selectedCard?.dataset.id), name: selectedCard?.dataset.location || ''});
     }
 
     return (
@@ -118,8 +127,8 @@ export default function app(weather: CurrentWeather) {
                         </ul>
                     }
                 </div>
-                {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} toggleView={toggleView} />}
-                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} toggleView={toggleView}></FiveDayForecast>}
+                {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} toggleView={toggleView} toggleFavourites={toggleFavourites}/>}
+                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
             </div>
             <div className="app-footer">
                 <p>Developed by Kieran Reilly</p>

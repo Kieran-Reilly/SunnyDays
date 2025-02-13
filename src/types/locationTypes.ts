@@ -5,6 +5,12 @@ export interface Location {
     }
   }
 
+export interface IndexedDBLocation {
+  id: number,
+  lat: number,
+  lon: number,
+  name: string
+}
 
 //for an explanation of these properties, please see: https://openweathermap.org/api/geocoding-api#fields_json
 export interface GoeLocationData {

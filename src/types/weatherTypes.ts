@@ -92,7 +92,11 @@ export interface Forecast {
         name: string,
         sunrise: number,
         sunset: number,
-        timezone: number
+        timezone: number,
+        coord?: {
+            lat: number,
+            lon: number
+        }
     }, 
     list: ForecastData[]
 }

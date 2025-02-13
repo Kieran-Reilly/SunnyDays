@@ -9,7 +9,7 @@ export function WeatherCards() {
 }
 
 
-export default function WeatherCard({weatherData, toggleView}: {weatherData: CurrentWeather, toggleView: React.MouseEventHandler}) {
+export default function WeatherCard({weatherData, toggleView, toggleFavourites}: {weatherData: CurrentWeather, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler}) {
     const [isOpen, setIsOpen] = useState(true);
 
     /**
@@ -17,13 +17,6 @@ export default function WeatherCard({weatherData, toggleView}: {weatherData: Cur
      */
     function toggleCard() {
         setIsOpen(!isOpen);
-    }
-
-    /**
-     * Add To Favourites Click handler which will add/remove this location from favourites
-     */
-    function addToFavourites(event: React.MouseEvent) {
-        console.log("added to favourites", event);
     }
 
     const description = weatherData.weather[0].description;
@@ -36,7 +29,7 @@ export default function WeatherCard({weatherData, toggleView}: {weatherData: Cur
     const visibility = weatherData.visibility/1000;
 
     return(
-        <div className='weather-card' data-location={weatherData.name} data-lat={weatherData.coord?.lat} data-lon={weatherData.coord?.lon}>
+        <div className='weather-card' data-id={weatherData.id} data-location={weatherData.name} data-lat={weatherData.coord?.lat} data-lon={weatherData.coord?.lon}>
             <div className="card-header">
                 { isOpen == true ? (
                     <span className="card-header-info">
@@ -55,7 +48,7 @@ export default function WeatherCard({weatherData, toggleView}: {weatherData: Cur
                 ) }
                 <span className="card-header-buttons">
                     <button className="icon-btn" onClick={toggleCard}><FaChevronDown /></button>
-                    <button className="icon-btn" onClick={addToFavourites}><FaHeart /></button>
+                    <button className="icon-btn" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
             </div>
             { isOpen == true ? (

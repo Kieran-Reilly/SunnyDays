@@ -100,7 +100,7 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
-export default function FiveDayForecast({ forecastInfo, toggleView }: { forecastInfo: Forecast, toggleView: React.MouseEventHandler }) {
+export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler}) {
     const [activeTab, setActiveTab] = useState(-1);
 
     function toggleTabs(event: React.MouseEvent) {
@@ -116,22 +116,14 @@ export default function FiveDayForecast({ forecastInfo, toggleView }: { forecast
         setActiveTab(-1);
     }
 
-    /**
-     * Add To Favourites Click handler which will add/remove this location from favourites
-     */
-    function addToFavourites(event: React.MouseEvent) {
-        //TODO hook up favourites
-        console.log("added to favourites", event);
-    }
-
     const forecastData = buildForecastData(forecastInfo);
     
     return(
-        <div className="forecast-info">
+        <div className="forecast-info"  data-id={forecastInfo.city.id} data-location={forecastInfo.city.name} data-lat={forecastInfo.city.coord?.lat} data-lon={forecastInfo.city.coord?.lon}>
             <div className="forecast-header">
                 <span className="forecast-header-info">
                     <h1>{forecastInfo.city.name}</h1>
-                    <button className="icon-btn"><FaHeart onClick={addToFavourites}/></button>
+                    <button className="icon-btn" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
                 <h4>5-Day Forecast</h4>
             </div>
