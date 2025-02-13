@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles.css'; // Optional: your global styles here
+import './styles.css';
 import App from './app';
 import { getCurrentLocation } from './managers/location-manager';
 import { getCurrentWeather } from './managers/weather-manager';
-
 import { CurrentWeather } from './types/weatherTypes';
 import { Location } from './types/locationTypes';
-import { openDB } from './managers/favourites-manager';
-
-//Immediately open a connection to LocationsDB indexedDB
-await openDB();
+import { retrieveAllIDs } from './managers/favourites-manager';
 
 function locationRetrievedSuccess(position: Location): Location {
   return position;
@@ -36,7 +32,7 @@ function render(currentWeather: CurrentWeather) {
   const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
   root.render(
     <React.StrictMode>
-      <App {...currentWeather}/>
+      <App weather={currentWeather} favourites={favourites}/>
     </React.StrictMode>
   );
 }
@@ -47,6 +43,9 @@ const currentLocation = await getCurrentLocation(locationRetrievedSuccess, locat
 
 // once location is defined, need to retrieve weather data for that location
 const currentWeather = await getCurrentWeather(currentLocation.coords.latitude, currentLocation.coords.longitude);
+
+//retrieve all the favourited items within the LocationsDB
+const favourites = await retrieveAllIDs() || new Array<Number>;
 
 // once weather data is retrieve, need to pass that on to App for rendering
 render(currentWeather);

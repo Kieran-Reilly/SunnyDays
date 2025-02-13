@@ -100,7 +100,7 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
-export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler}) {
+export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites, favouritedItems}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
     const [activeTab, setActiveTab] = useState(-1);
 
     function toggleTabs(event: React.MouseEvent) {
@@ -117,13 +117,14 @@ export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavour
     }
 
     const forecastData = buildForecastData(forecastInfo);
+    const favourited = favouritedItems.indexOf(forecastInfo.city.id) != -1 ? true : false;
     
     return(
-        <div className="forecast-info"  data-id={forecastInfo.city.id} data-location={forecastInfo.city.name} data-lat={forecastInfo.city.coord?.lat} data-lon={forecastInfo.city.coord?.lon}>
+        <div className="forecast-info"  data-id={forecastInfo.city.id} data-location={forecastInfo.city.name} data-lat={forecastInfo.city.coord?.lat} data-lon={forecastInfo.city.coord?.lon} data-favourited={favourited}>
             <div className="forecast-header">
                 <span className="forecast-header-info">
                     <h1>{forecastInfo.city.name}</h1>
-                    <button className="icon-btn" onClick={toggleFavourites}><FaHeart /></button>
+                    <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
                 <h4>5-Day Forecast</h4>
             </div>

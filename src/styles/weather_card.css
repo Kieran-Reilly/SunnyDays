@@ -78,4 +78,8 @@
         align-items: center;
         text-align: center;
     }
+
+    .weather-card[data-favourited='true'] button[class='icon-btn heart'] svg {
+        fill: gold;
+    }
 }
