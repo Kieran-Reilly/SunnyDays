@@ -6,8 +6,6 @@ import {getForecast } from "./managers/weather-manager";
 import FiveDayForecast from "./components/five_day_forecast";
 import { addToDB, removeFromDB } from "./managers/favourites-manager";
 import SearchInput from "./components/search_input";
-import Loader from "./components/loader";
-
 
 export default function app({weather, favourites}: {weather: CurrentWeather, favourites: Array<Number>}) {
     const [currentView, setCurrentView] = useState('currentWeather');
@@ -57,7 +55,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     return (
         <>
             <div className="app-header">
-                Some Logo
+                <img src=".\src\assets\g19521.png"></img>
             </div>
             <div className="app-main" data-active-view={currentView}>
                 <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>

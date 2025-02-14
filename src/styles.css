@@ -26,6 +26,8 @@
   #root {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   h1, h2, h3, h4, h5, h6, p {
@@ -62,6 +64,16 @@
   .app-header, .app-footer {
     height: 10%;    
     background-color: pink;
+  }
+
+  .app-header {
+    text-align: center;
+  }
+
+  .app-header img {
+    height: 80%;
+    background: transparent;
+    margin: 0.5rem;
   }
 
   .app-main {

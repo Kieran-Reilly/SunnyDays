@@ -1,15 +1,12 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
 import { CurrentWeather } from "../types/weatherTypes";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { fetchWindDirection } from "../types/weatherUtils";
 import { retrieveAllItems } from "../managers/favourites-manager";
 import { getCurrentWeather } from "../managers/weather-manager";
 
 
 async function fetchFavouritedWeatherData() {
-    console.log("fetch favourites to render");
-
-    
     const favouriteItems = await retrieveAllItems();
     if (favouriteItems == null) return;
 
@@ -24,7 +21,6 @@ async function fetchFavouritedWeatherData() {
 
 export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
-
 
     if (weatherData.length != favourites.length) {
         fetchFavouritedWeatherData()
