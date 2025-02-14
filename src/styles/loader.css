@@ -1,0 +1,34 @@
+@media only screen and (max-width: 768px) {
+    .loader {
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader svg {
+        height: 2rem;
+        width: 2rem;
+        margin: 0.5rem;
+        fill: gold;
+
+        animation-name: rotate;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-direction: linear;
+        animation-timing-function: linear;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0);
+        }
+      
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}

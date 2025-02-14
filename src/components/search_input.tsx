@@ -23,7 +23,7 @@ function SearchResultItems({searchResults, locationSelected}: {searchResults: Go
     )
 }
 
-export default function SearchInput({currentWeather, weather, setCurrentWeather, setCurrentView}: {currentWeather: CurrentWeather,weather: CurrentWeather, setCurrentWeather:  React.Dispatch<React.SetStateAction<CurrentWeather>>, setCurrentView: React.Dispatch<React.SetStateAction<string>>}) {
+export default function SearchInput({currentWeather, weather, setCurrentWeather, setCurrentView, setActiveCard}: {currentWeather: CurrentWeather,weather: CurrentWeather, setCurrentWeather:  React.Dispatch<React.SetStateAction<CurrentWeather>>, setCurrentView: React.Dispatch<React.SetStateAction<string>>, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [searchString, setSearchString] = useState('');
     const [searchResults, setSearchResults] = useState(null);
     const [searchResultsListActive, setSearchResultsListActive] = useState(false);
@@ -57,6 +57,7 @@ export default function SearchInput({currentWeather, weather, setCurrentWeather,
         setSearchString('');
         setSearchResultsListActive(false);
         setCurrentWeather(weather);
+        setActiveCard(weather.id);
         setCurrentView("currentWeather");
     }
 
@@ -69,6 +70,7 @@ export default function SearchInput({currentWeather, weather, setCurrentWeather,
 
         //Set currentWeather to fetched weather result
         setCurrentWeather(weatherResult);
+        setActiveCard(weatherResult.id);
     }
 
     return (

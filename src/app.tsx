@@ -6,6 +6,7 @@ import {getForecast } from "./managers/weather-manager";
 import FiveDayForecast from "./components/five_day_forecast";
 import { addToDB, removeFromDB } from "./managers/favourites-manager";
 import SearchInput from "./components/search_input";
+import Loader from "./components/loader";
 
 
 export default function app({weather, favourites}: {weather: CurrentWeather, favourites: Array<Number>}) {
@@ -13,6 +14,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     const [forecastData, setForecastData] = useState(null);
     const [currentWeather, setCurrentWeather] = useState(weather);
     const [favouritedItemIDs, setFavouritedItems] = useState(favourites);
+    const [activeCard, setActiveCard] = useState(weather.id);
 
     async function toggleView(event: React.MouseEvent) {
         if (currentView === 'currentWeather') {
@@ -28,8 +30,11 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
         }
 
         if (currentView === 'forecast') {
+            if (favouritedItemIDs.indexOf(activeCard) == -1 && currentWeather.id !== activeCard) {
+                setActiveCard(currentWeather.id);
+            }
+
             setCurrentView('currentWeather');
-            return;
         }
     }
 
@@ -55,10 +60,13 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
                 Some Logo
             </div>
             <div className="app-main" data-active-view={currentView}>
-                <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView}></SearchInput>
-                {currentView === 'currentWeather' && <WeatherCard open={true} weatherData={currentWeather} toggleView={toggleView} toggleFavourites={toggleFavourites} favouritedItems={favouritedItemIDs}/>}
-                {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && <WeatherCards favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}/>}
-                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} toggleView={toggleView} toggleFavourites={toggleFavourites} favouritedItems={favouritedItemIDs}></FiveDayForecast>}
+                <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>
+                {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>}
+                {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && 
+                    <div className="favourites">
+                        <WeatherCards currentWeather={currentWeather} favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>
+                    </div>}
+                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
             </div>
             <div className="app-footer">
                 <p>Developed by Kieran Reilly</p>

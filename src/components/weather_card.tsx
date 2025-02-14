@@ -1,10 +1,9 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
 import { CurrentWeather } from "../types/weatherTypes";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { fetchWindDirection } from "../types/weatherUtils";
 import { retrieveAllItems } from "../managers/favourites-manager";
 import { getCurrentWeather } from "../managers/weather-manager";
-
 
 
 async function fetchFavouritedWeatherData() {
@@ -23,7 +22,7 @@ async function fetchFavouritedWeatherData() {
     return favouritedWeatherData;
 }
 
-export function WeatherCards({favourites, toggleView, toggleFavourites}: {favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler}) {
+export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
 
 
@@ -35,10 +34,12 @@ export function WeatherCards({favourites, toggleView, toggleFavourites}: {favour
     }
     
     const favouriteWeatherItems = weatherData.map((item) => {
-        return (
-            <WeatherCard key={item.id} open={false} weatherData={item} toggleView={toggleView} toggleFavourites={toggleFavourites} favouritedItems={favourites}>
-            </WeatherCard>
-        )
+        if (currentWeather.id != item.id) {
+            return (
+                <WeatherCard key={item.id} weatherData={item} favouritedItems={favourites} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}> 
+                </WeatherCard>
+            )
+        }
     })
 
     return (
@@ -49,14 +50,21 @@ export function WeatherCards({favourites, toggleView, toggleFavourites}: {favour
 }
 
 
-export default function WeatherCard({open, weatherData, toggleView, toggleFavourites, favouritedItems}: {open: Boolean, weatherData: CurrentWeather, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
-    const [isOpen, setIsOpen] = useState(open);
-
+export default function WeatherCard({weatherData, favouritedItems, toggleView, toggleFavourites, activeCard, setActiveCard}: {weatherData: CurrentWeather,  favouritedItems: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     /**
-     * Toggle Card Click handler which updates the isOpen state of the card
+     * Toggle Card Click handler which updates the active card
      */
-    function toggleCard() {
-        setIsOpen(!isOpen);
+    function toggleCard(event: React.MouseEvent) {
+        const target = event.target as HTMLElement;
+        const selectedTab = target.parentElement?.parentElement?.parentElement;
+
+        if (Number(selectedTab?.dataset.id) != activeCard) {
+            //open
+            setActiveCard(Number(selectedTab?.dataset.id));
+        } else {
+            //close
+            setActiveCard(-1);
+        }
     }
 
     const description = weatherData.weather[0].description;
@@ -72,7 +80,7 @@ export default function WeatherCard({open, weatherData, toggleView, toggleFavour
     return(
         <div className='weather-card' data-id={weatherData.id} data-location={weatherData.name} data-lat={weatherData.coord?.lat} data-lon={weatherData.coord?.lon} data-favourited={isFavourited}>
             <div className="card-header">
-                { isOpen == true ? (
+                { activeCard == weatherData.id ? (
                     <span className="card-header-info">
                         <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
                         <h3>{weatherData.name}</h3>
@@ -92,7 +100,7 @@ export default function WeatherCard({open, weatherData, toggleView, toggleFavour
                     <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
             </div>
-            { isOpen == true ? (
+            { activeCard == weatherData.id ? (
                 <div className="card-body">
                 <div className="card-body-highlight">
                     <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
@@ -136,7 +144,7 @@ export default function WeatherCard({open, weatherData, toggleView, toggleFavour
                 </div>
             </div>
             ) : null}
-            { isOpen == true ? (
+            { activeCard == weatherData.id ? (
                 <div className="card-footer"><button onClick={toggleView}>5 Day Forecast</button></div>
             ) : null }
         </div>
