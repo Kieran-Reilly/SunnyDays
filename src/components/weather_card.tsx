@@ -5,7 +5,7 @@ import { fetchWindDirection } from "../types/weatherUtils";
 import { retrieveAllItems } from "../managers/favourites-manager";
 import { getCurrentWeather } from "../managers/weather-manager";
 
-
+//TODO: JSDocs
 async function fetchFavouritedWeatherData() {
     const favouriteItems = await retrieveAllItems();
     if (favouriteItems == null) return;
@@ -19,6 +19,7 @@ async function fetchFavouritedWeatherData() {
     return favouritedWeatherData;
 }
 
+//TODO: JSDocs
 export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
 
@@ -46,6 +47,7 @@ export function WeatherCards({currentWeather, favourites, toggleView, toggleFavo
 }
 
 
+//TODO: JSDocs
 export default function WeatherCard({weatherData, favouritedItems, toggleView, toggleFavourites, activeCard, setActiveCard}: {weatherData: CurrentWeather,  favouritedItems: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     /**
      * Toggle Card Click handler which updates the active card

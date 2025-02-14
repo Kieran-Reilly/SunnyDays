@@ -4,6 +4,7 @@ import { CurrentWeather } from "../types/weatherTypes";
 import { getLocation } from "../managers/location-manager";
 import { getCurrentWeather } from "../managers/weather-manager";
 
+//TODO: JSDocs
 function SearchResultItems({searchResults, locationSelected}: {searchResults: GoeLocationData[], locationSelected: React.MouseEventHandler}) {
     const listItems = searchResults.map(item => {
         const key = `${item.lat}${item.lon}`;
@@ -23,11 +24,13 @@ function SearchResultItems({searchResults, locationSelected}: {searchResults: Go
     )
 }
 
+//TODO: JSDocs
 export default function SearchInput({currentWeather, weather, setCurrentWeather, setCurrentView, setActiveCard}: {currentWeather: CurrentWeather,weather: CurrentWeather, setCurrentWeather:  React.Dispatch<React.SetStateAction<CurrentWeather>>, setCurrentView: React.Dispatch<React.SetStateAction<string>>, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [searchString, setSearchString] = useState('');
     const [searchResults, setSearchResults] = useState(null);
     const [searchResultsListActive, setSearchResultsListActive] = useState(false);
 
+    //TODO: JSDocs
     function handleChange(event: React.BaseSyntheticEvent) {
         if (event.target?.value.trim() == '') {
             clearLocation();
@@ -36,10 +39,12 @@ export default function SearchInput({currentWeather, weather, setCurrentWeather,
         setSearchString(event.target?.value);
     }
 
+    //TODO: JSDocs
     function inputKeyUpHandler(event: React.KeyboardEvent) {
         if (event.key === 'Enter')  searchForLocation();
     }
 
+    //TODO: JSDocs
     async function searchForLocation() {
         if (searchString == null || searchString.trim() == '') return;
 
@@ -50,6 +55,7 @@ export default function SearchInput({currentWeather, weather, setCurrentWeather,
         }
     }
 
+    //TODO: JSDocs
     function clearLocation() {
         if (searchString == null || searchString.trim() == '') return;
 
@@ -61,6 +67,7 @@ export default function SearchInput({currentWeather, weather, setCurrentWeather,
         setCurrentView("currentWeather");
     }
 
+    //TODO: JSDocs
     async function locationSelected(event: React.MouseEvent) {
         setSearchResultsListActive(false);
         const target = event.target as HTMLElement;

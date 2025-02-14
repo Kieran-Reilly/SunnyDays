@@ -3,6 +3,7 @@ import { Forecast, ForecastData,  } from "../types/weatherTypes";
 import { useState } from "react";
 import { fetchWindDirection, getDayOfWeek, getMonth, getNextDay } from "../types/weatherUtils";
 
+//TODO: JSDocs
 function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, toggleTabs}: {item: ForecastData, date: Date, dayOfTheWeek: string, month: string, weatherInfoIcon: string, toggleTabs: React.MouseEventHandler}) {
     const rain = item?.rain != null ? item?.rain["3h"] : 0;
     const snow = item?.snow != null ? item?.snow["3h"] : 0;
@@ -61,7 +62,7 @@ function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, tog
     )
 }
 
-
+//TODO: JSDocs
 function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: ForecastData[], toggleTabs: React.MouseEventHandler, activeTab: Number }) {
     const forecastDataItems = forecastData.map(item => {
         const date = new Date(item.dt * 1000); 
@@ -100,9 +101,11 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
+//TODO: JSDocs
 export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites, favouritedItems}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
     const [activeTab, setActiveTab] = useState(-1);
 
+    //TODO: JSDocs
     function toggleTabs(event: React.MouseEvent) {
         const target = event.target as HTMLElement;
         const selectedTab = target.parentElement?.parentElement?.parentElement;
@@ -138,6 +141,7 @@ export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavour
     )
 }
 
+//TODO: Maybe move this out to weather manager
 /**
  * Builds up data for a 5-day forecast which will be used to populate the individual forecast-content
  * @param forecastInfo {Forecast} - an instance of the Forecast interface containing forecast data
@@ -172,6 +176,8 @@ function buildForecastData(forecastInfo: Forecast) {
     return forecastData;
 }
 
+
+//TODO: Maybe move this out to weather manager
 /**
  * Given a specific ForecastData item, finds the min and max temps for dates within the data for that particular day
  * @param item {ForecastData} - a ForecastData item containing weather information for a particular day within a 5-day forecast

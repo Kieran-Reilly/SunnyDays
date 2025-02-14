@@ -7,6 +7,7 @@ import FiveDayForecast from "./components/five_day_forecast";
 import { addToDB, removeFromDB } from "./managers/favourites-manager";
 import SearchInput from "./components/search_input";
 
+//TODO: JSDocs
 export default function app({weather, favourites}: {weather: CurrentWeather, favourites: Array<Number>}) {
     const [currentView, setCurrentView] = useState('currentWeather');
     const [forecastData, setForecastData] = useState(null);
@@ -14,6 +15,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     const [favouritedItemIDs, setFavouritedItems] = useState(favourites);
     const [activeCard, setActiveCard] = useState(weather.id);
 
+    //TODO: JSDocs
     async function toggleView(event: React.MouseEvent) {
         if (currentView === 'currentWeather') {
             const target = event.target as HTMLElement;
@@ -36,6 +38,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
         }
     }
 
+    //TODO: JSDocs    
     async function toggleFavourites(event: React.MouseEvent) {
         const target = event.target as HTMLElement;
         const selectedCard = target.parentElement?.parentElement?.parentElement;

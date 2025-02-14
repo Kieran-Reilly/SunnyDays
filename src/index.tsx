@@ -8,10 +8,12 @@ import { CurrentWeather } from './types/weatherTypes';
 import { Location } from './types/locationTypes';
 import { retrieveAllIDs } from './managers/favourites-manager';
 
+//TODO: JSDocs
 function locationRetrievedSuccess(position: Location): Location {
   return position;
 }
 
+//TODO: JSDocs
 function locationRetrievedError(error: GeolocationPositionError): Location {
   console.error("failed to retrieve current location", error.code, error.message);
   
@@ -26,7 +28,7 @@ function locationRetrievedError(error: GeolocationPositionError): Location {
   return defaultLocation;
 }
 
-
+//TODO: JSDocs
 function render(currentWeather: CurrentWeather) {
   console.log("rendering");
   const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
@@ -37,7 +39,6 @@ function render(currentWeather: CurrentWeather) {
   );
 }
 
-// TODO: start loader
 // need to retrieve location | have a fallback location to be used in retrieving weather data
 const currentLocation = await getCurrentLocation(locationRetrievedSuccess, locationRetrievedError);
 
@@ -46,10 +47,6 @@ const currentWeather = await getCurrentWeather(currentLocation.coords.latitude, 
 
 //retrieve all the favourited items within the LocationsDB
 const favourites = await retrieveAllIDs() || new Array<Number>;
-console.log("Favourites on startup:", favourites);
-
 
 // once weather data is retrieve, need to pass that on to App for rendering
 render(currentWeather);
-
-// TODO: once rendering is complete, stop loader
