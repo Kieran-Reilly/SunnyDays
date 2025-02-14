@@ -1,7 +1,9 @@
 import { FaChevronDown, FaChevronUp, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { Forecast, ForecastData, getNextDay, getDayOfWeek, getMonth, fetchWindDirection } from "../types/weatherTypes";
+import { Forecast, ForecastData,  } from "../types/weatherTypes";
 import { useState } from "react";
+import { fetchWindDirection, getDayOfWeek, getMonth, getNextDay } from "../types/weatherUtils";
 
+//TODO: JSDocs
 function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, toggleTabs}: {item: ForecastData, date: Date, dayOfTheWeek: string, month: string, weatherInfoIcon: string, toggleTabs: React.MouseEventHandler}) {
     const rain = item?.rain != null ? item?.rain["3h"] : 0;
     const snow = item?.snow != null ? item?.snow["3h"] : 0;
@@ -17,7 +19,7 @@ function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, tog
             <div className="forecast-body-main">
                 <img src={`http://openweathermap.org/img/wn/${weatherInfoIcon}.png`}></img>
                 { item.main.max_day_temp != null && item.main.min_day_temp != null ? (
-                    <p>High of {Math.round(item.main.max_day_temp)}, Low of {Math.round(item.main.min_day_temp)}°C</p>
+                    <p>High of {Math.round(item.main.max_day_temp)}°C, Low of {Math.round(item.main.min_day_temp)}°C</p>
                 ) : null}
             </div>
             <div className="forecast-body-details">
@@ -60,7 +62,7 @@ function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, tog
     )
 }
 
-
+//TODO: JSDocs
 function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: ForecastData[], toggleTabs: React.MouseEventHandler, activeTab: Number }) {
     const forecastDataItems = forecastData.map(item => {
         const date = new Date(item.dt * 1000); 
@@ -99,9 +101,11 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
-export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Forecast }) {
+//TODO: JSDocs
+export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites, favouritedItems}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
     const [activeTab, setActiveTab] = useState(-1);
 
+    //TODO: JSDocs
     function toggleTabs(event: React.MouseEvent) {
         const target = event.target as HTMLElement;
         const selectedTab = target.parentElement?.parentElement?.parentElement;
@@ -115,28 +119,15 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
         setActiveTab(-1);
     }
 
-    /**
-     * Add To Favourites Click handler which will add/remove this location from favourites
-     */
-    function addToFavourites(event: React.MouseEvent) {
-        //TODO hook up favourites
-        console.log("added to favourites", event);
-    }
-
-    function returnToCurrentForecasts(event: React.MouseEvent) {
-         //TODO hook up return button
-         console.log("Returning to current forecasts", event);
-    }
-
     const forecastData = buildForecastData(forecastInfo);
+    const favourited = favouritedItems.indexOf(forecastInfo.city.id) != -1 ? true : false;
     
-
     return(
-        <div className="forecast-info">
+        <div className="forecast-info"  data-id={forecastInfo.city.id} data-location={forecastInfo.city.name} data-lat={forecastInfo.city.coord?.lat} data-lon={forecastInfo.city.coord?.lon} data-favourited={favourited}>
             <div className="forecast-header">
                 <span className="forecast-header-info">
                     <h1>{forecastInfo.city.name}</h1>
-                    <button className="icon-btn"><FaHeart onClick={addToFavourites}/></button>
+                    <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
                 <h4>5-Day Forecast</h4>
             </div>
@@ -144,12 +135,13 @@ export default function FiveDayForecast({ forecastInfo }: { forecastInfo: Foreca
                 <ForecastCard forecastData={forecastData} toggleTabs={toggleTabs} activeTab={activeTab}/>
             </div>
             <div className="forecast-footer">
-                <button onClick={returnToCurrentForecasts}>Return</button>
+                <button onClick={toggleView}>Return</button>
             </div>
         </div>
     )
 }
 
+//TODO: Maybe move this out to weather manager
 /**
  * Builds up data for a 5-day forecast which will be used to populate the individual forecast-content
  * @param forecastInfo {Forecast} - an instance of the Forecast interface containing forecast data
@@ -184,6 +176,8 @@ function buildForecastData(forecastInfo: Forecast) {
     return forecastData;
 }
 
+
+//TODO: Maybe move this out to weather manager
 /**
  * Given a specific ForecastData item, finds the min and max temps for dates within the data for that particular day
  * @param item {ForecastData} - a ForecastData item containing weather information for a particular day within a 5-day forecast

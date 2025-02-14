@@ -1,5 +1,6 @@
 @import "./styles/weather_card.css";
 @import "./styles/five_day_forecast.css";
+@import "./styles/loader.css";
 
 * {
     box-sizing: border-box;
@@ -25,6 +26,8 @@
   #root {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   h1, h2, h3, h4, h5, h6, p {
@@ -49,6 +52,11 @@
     pointer-events: none;
   }
 
+  a[class='icon-btn'] svg {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
 
 
   /* APP STYLES STARTS*/
@@ -58,11 +66,57 @@
     background-color: pink;
   }
 
+  .app-header {
+    text-align: center;
+  }
+
+  .app-header img {
+    height: 80%;
+    background: transparent;
+    margin: 0.5rem;
+  }
+
+  .app-main {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-main .favourites {
+    height: 100%;
+    overflow: scroll;
+  }
+
   .app-footer {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+  }
+
+  .search-results {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .search-results li {
+    height: 2rem;
+    margin: 0.5rem 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-results li span {
+    pointer-events: none;
+  }
+
+  .search-result-secondary {
+    color: grey;
   }
 
   /* APP STYLES ENDS*/

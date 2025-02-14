@@ -93,4 +93,8 @@
     .forecast-footer {
         justify-content: space-around;
     }
+
+    .forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
+        fill: gold;
+    }
 }

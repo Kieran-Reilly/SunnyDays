@@ -1,68 +1,108 @@
 import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
-import { CurrentWeather, fetchWindDirection} from "../types/weatherTypes";
+import { CurrentWeather } from "../types/weatherTypes";
 import { useState } from "react";
+import { fetchWindDirection } from "../types/weatherUtils";
+import { retrieveAllItems } from "../managers/favourites-manager";
+import { getCurrentWeather } from "../managers/weather-manager";
 
-export default function WeatherCard(headerInfo: CurrentWeather) {
-    const [isOpen, setIsOpen] = useState(true);
+//TODO: JSDocs
+async function fetchFavouritedWeatherData() {
+    const favouriteItems = await retrieveAllItems();
+    if (favouriteItems == null) return;
 
-    /**
-     * Toggle Card Click handler which updates the isOpen state of the card
-     */
-    function toggleCard() {
-        setIsOpen(!isOpen);
+    const favouritedWeatherData = new Array<CurrentWeather>;
+    for (const item of favouriteItems) {
+        const itemWeather = await getCurrentWeather(item.lat, item.lon);
+        favouritedWeatherData.push(itemWeather);
     }
 
-    /**
-     * Add To Favourites Click handler which will add/remove this location from favourites
-     */
-    function addToFavourites(event: React.MouseEvent) {
-        console.log("added to favourites", event);
-    }
+    return favouritedWeatherData;
+}
 
-    /**
-     * Show five day forecast button handler which will launch the fiveDayForecast component for the specific location
-     */
-    function showFiveDayForecast(event: React.MouseEvent) {
-        console.log("showing five day forecast", event);
-    }
+//TODO: JSDocs
+export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
+    const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
 
-    const description = headerInfo.weather[0].description;
-    const iconCode = headerInfo.weather[0].icon;
+    if (weatherData.length != favourites.length) {
+        fetchFavouritedWeatherData()
+        .then((result) => {
+            result != null && setWeatherData(result);
+        })
+    }
     
-    const currentDate = headerInfo.date || new Date();
-    const rain = headerInfo?.rain != null ? headerInfo?.rain["1h"] : 0;
-    const snow = headerInfo?.snow != null ? headerInfo?.snow["1h"] : 0;
-    const windDirection = fetchWindDirection(headerInfo.wind.deg);
-    const visibility = headerInfo.visibility/1000;
+    const favouriteWeatherItems = weatherData.map((item) => {
+        if (currentWeather.id != item.id) {
+            return (
+                <WeatherCard key={item.id} weatherData={item} favouritedItems={favourites} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}> 
+                </WeatherCard>
+            )
+        }
+    })
+
+    return (
+        <>
+            {favouriteWeatherItems}
+        </>
+    )
+}
+
+
+//TODO: JSDocs
+export default function WeatherCard({weatherData, favouritedItems, toggleView, toggleFavourites, activeCard, setActiveCard}: {weatherData: CurrentWeather,  favouritedItems: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
+    /**
+     * Toggle Card Click handler which updates the active card
+     */
+    function toggleCard(event: React.MouseEvent) {
+        const target = event.target as HTMLElement;
+        const selectedTab = target.parentElement?.parentElement?.parentElement;
+
+        if (Number(selectedTab?.dataset.id) != activeCard) {
+            //open
+            setActiveCard(Number(selectedTab?.dataset.id));
+        } else {
+            //close
+            setActiveCard(-1);
+        }
+    }
+
+    const description = weatherData.weather[0].description;
+    const iconCode = weatherData.weather[0].icon;
+    
+    const currentDate = weatherData.date || new Date();
+    const rain = weatherData?.rain != null ? weatherData?.rain["1h"] : 0;
+    const snow = weatherData?.snow != null ? weatherData?.snow["1h"] : 0;
+    const windDirection = fetchWindDirection(weatherData.wind.deg);
+    const visibility = weatherData.visibility/1000;
+    const isFavourited = favouritedItems.indexOf(weatherData.id) != -1 ? true : false;
 
     return(
-        <>
+        <div className='weather-card' data-id={weatherData.id} data-location={weatherData.name} data-lat={weatherData.coord?.lat} data-lon={weatherData.coord?.lon} data-favourited={isFavourited}>
             <div className="card-header">
-                { isOpen == true ? (
+                { activeCard == weatherData.id ? (
                     <span className="card-header-info">
                         <p>{currentDate.toDateString()}, {currentDate.getHours()}:{currentDate.getMinutes()}</p>
-                        <h3>{headerInfo.name}</h3>
-                        <p>Feels Like {headerInfo.main.feels_like}°C, {description}</p>
+                        <h3>{weatherData.name}</h3>
+                        <p>Feels Like {Math.round(weatherData.main.feels_like)}°C, {description}</p>
                     </span>
                 ) : (
                     <span className="card-header-info" data-is-open="false">
-                        <h3>{headerInfo.name}</h3>
+                        <h3>{weatherData.name}</h3>
                         <span>
                             <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                            <p>{headerInfo.main.temp}°C</p>
+                            <p>{Math.round(weatherData.main.temp)}°C</p>
                         </span>
                     </span>
                 ) }
                 <span className="card-header-buttons">
-                    <button className="icon-btn"><FaChevronDown onClick={toggleCard}/></button>
-                    <button className="icon-btn"><FaHeart onClick={addToFavourites}/></button>
+                    <button className="icon-btn" onClick={toggleCard}><FaChevronDown /></button>
+                    <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
             </div>
-            { isOpen == true ? (
+            { activeCard == weatherData.id ? (
                 <div className="card-body">
                 <div className="card-body-highlight">
                     <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                    <p>{headerInfo.main.temp}°C</p>
+                    <p>{Math.round(weatherData.main.temp)}°C</p>
                 </div>
                 <div className="card-body-info">
                     {rain !== 0 ? (
@@ -81,17 +121,17 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
                     ) : null}
                     <span className="card-body-info-panel">
                         <p>Wind speed & direction</p>
-                        <h4>{headerInfo.wind.speed}m/s {windDirection}</h4>
+                        <h4>{weatherData.wind.speed}m/s {windDirection}</h4>
                         <FaWind />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Pressure</p>
-                        <h4>{headerInfo.main.pressure}hPa</h4>
+                        <h4>{weatherData.main.pressure}hPa</h4>
                         <FaGaugeHigh />
                     </span>
                     <span className="card-body-info-panel">
                         <p>Humidity</p>
-                        <h4>{headerInfo.main.humidity}%</h4>
+                        <h4>{weatherData.main.humidity}%</h4>
                         <FaDroplet />
                     </span>
                     <span className="card-body-info-panel">
@@ -102,9 +142,9 @@ export default function WeatherCard(headerInfo: CurrentWeather) {
                 </div>
             </div>
             ) : null}
-            { isOpen == true ? (
-                <div className="card-body"><button onClick={showFiveDayForecast}>5 Day Forecast</button></div>
+            { activeCard == weatherData.id ? (
+                <div className="card-footer"><button onClick={toggleView}>5 Day Forecast</button></div>
             ) : null }
-        </>
+        </div>
     )
 }
