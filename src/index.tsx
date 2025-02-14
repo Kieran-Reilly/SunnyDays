@@ -46,6 +46,8 @@ const currentWeather = await getCurrentWeather(currentLocation.coords.latitude, 
 
 //retrieve all the favourited items within the LocationsDB
 const favourites = await retrieveAllIDs() || new Array<Number>;
+console.log("Favourites on startup:", favourites);
+
 
 // once weather data is retrieve, need to pass that on to App for rendering
 render(currentWeather);

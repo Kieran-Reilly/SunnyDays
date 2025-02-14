@@ -2,15 +2,55 @@ import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, Fa
 import { CurrentWeather } from "../types/weatherTypes";
 import { useState } from "react";
 import { fetchWindDirection } from "../types/weatherUtils";
+import { retrieveAllItems } from "../managers/favourites-manager";
+import { getCurrentWeather } from "../managers/weather-manager";
 
 
-export function WeatherCards() {
 
+async function fetchFavouritedWeatherData() {
+    console.log("fetch favourites to render");
+
+    
+    const favouriteItems = await retrieveAllItems();
+    if (favouriteItems == null) return;
+
+    const favouritedWeatherData = new Array<CurrentWeather>;
+    for (const item of favouriteItems) {
+        const itemWeather = await getCurrentWeather(item.lat, item.lon);
+        favouritedWeatherData.push(itemWeather);
+    }
+
+    return favouritedWeatherData;
+}
+
+export function WeatherCards({favourites, toggleView, toggleFavourites}: {favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler}) {
+    const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
+
+
+    if (weatherData.length != favourites.length) {
+        fetchFavouritedWeatherData()
+        .then((result) => {
+            result != null && setWeatherData(result);
+        })
+    }
+    
+    const favouriteWeatherItems = weatherData.map((item) => {
+        return (
+            <WeatherCard key={item.id} open={false} weatherData={item} toggleView={toggleView} toggleFavourites={toggleFavourites} favouritedItems={favourites}>
+            </WeatherCard>
+        )
+    })
+
+    return (
+        <>
+            {favouriteWeatherItems}
+        </>
+    )
 }
 
 
-export default function WeatherCard({weatherData, toggleView, toggleFavourites, favouritedItems}: {weatherData: CurrentWeather, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
-    const [isOpen, setIsOpen] = useState(true);
+export default function WeatherCard({open, weatherData, toggleView, toggleFavourites, favouritedItems}: {open: Boolean, weatherData: CurrentWeather, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
+    const [isOpen, setIsOpen] = useState(open);
 
     /**
      * Toggle Card Click handler which updates the isOpen state of the card
