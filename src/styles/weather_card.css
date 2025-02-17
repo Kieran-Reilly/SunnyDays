@@ -1,10 +1,24 @@
 @media only screen and (max-width: 768px) {
+    .weather-card {
+        margin: var(--main-margin);
+        padding: var(--main-padding);
+        border-radius: var(--bdr-radius);
+        filter: drop-shadow(var(--main-txt-colour) 0.2rem 0.2rem 0.25rem);
+    }
+
+    .weather-card, .weather-card * {
+        background-color: var(--tertiary-bg-colour);
+    }
+
+    .weather-card[data-favourited='true'] button[class='icon-btn heart'] svg {
+        fill: var(--btn-active-colour);
+    }
+    
     .card-header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        min-height: 4.125rem
     }
 
     .card-header-info h3 {
@@ -12,7 +26,6 @@
     }
 
     .card-header-info[data-is-open='false'] {
-        max-height: 4.125rem;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -46,7 +59,7 @@
     }
 
     .card-body, .card-footer {
-        margin: 1rem 0;
+        margin: var(--main-margin) 0;
         display: flex;
         flex-direction: column;
     }
@@ -67,10 +80,14 @@
         display: flex;
         flex-direction: row;
         overflow: scroll;
+        border-radius: var(--bdr-radius);
+    }
+
+    .card-body-info, .card-body-info * {
+        background-color: var(--bdr-colour);
     }
 
     .card-body-info-panel {
-        min-height: 6rem;
         min-width: 7rem;
         margin: 0 0.5rem;
         display: flex;
@@ -79,7 +96,24 @@
         text-align: center;
     }
 
-    .weather-card[data-favourited='true'] button[class='icon-btn heart'] svg {
-        fill: gold;
+    .card-body-info-panel p {
+        flex: 1;
+    }
+
+    .card-body-info-panel p, .card-body-info-panel h4 {
+        margin: var(--half-margin) 0;
+    }
+
+    .card-body-info-panel svg {
+        margin: var(--half-margin) 0 var(--main-margin) 0;
+    }
+
+    .card-body-info-panel-seperator {
+        min-width: 0.25rem;
+        min-height: 5rem;
+        background-color: var(--main-bg-colour);
+        justify-self: center;
+        align-self: center;
+        border-radius: 0.25rem;
     }
 }

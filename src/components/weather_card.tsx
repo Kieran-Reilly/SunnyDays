@@ -1,4 +1,4 @@
-import { FaChevronDown, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
+import { FaChevronDown, FaChevronUp, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, FaDroplet, FaEye, FaRegSnowflake } from "react-icons/fa6";
 import { CurrentWeather } from "../types/weatherTypes";
 import { useState } from "react";
 import { fetchWindDirection } from "../types/weatherUtils";
@@ -94,7 +94,7 @@ export default function WeatherCard({weatherData, favouritedItems, toggleView, t
                     </span>
                 ) }
                 <span className="card-header-buttons">
-                    <button className="icon-btn" onClick={toggleCard}><FaChevronDown /></button>
+                    <button className="icon-btn" onClick={toggleCard}>{activeCard == weatherData.id ? <FaChevronUp /> : <FaChevronDown />}</button>
                     <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
             </div>
@@ -106,34 +106,43 @@ export default function WeatherCard({weatherData, favouritedItems, toggleView, t
                 </div>
                 <div className="card-body-info">
                     {rain !== 0 ? (
-                        <span className="card-body-info-panel">
-                            <p>Expected amount of rain</p>
-                            <h4>{rain}mm/h</h4>
-                            <FaCloudRain />
-                        </span>
+                        <>
+                            <span className="card-body-info-panel">
+                                <p>Expected amount of rain</p>
+                                <h4>{rain}mm/h</h4>
+                                <FaCloudRain />
+                            </span>
+                            <span className="card-body-info-panel-seperator"></span>
+                        </>
                     ) : null}
                     {snow !== 0 ? (
-                        <span className="card-body-info-panel">
+                        <>
+                            <span className="card-body-info-panel">
                             <p>Expected amount of snow</p>
                             <h4>{snow}mm/h</h4>
                             <FaRegSnowflake />
-                        </span>
+                            </span>
+                            <span className="card-body-info-panel-seperator"></span>
+                        </>
                     ) : null}
                     <span className="card-body-info-panel">
                         <p>Wind speed & direction</p>
                         <h4>{weatherData.wind.speed}m/s {windDirection}</h4>
                         <FaWind />
                     </span>
+                    <span className="card-body-info-panel-seperator"></span>
                     <span className="card-body-info-panel">
                         <p>Pressure</p>
                         <h4>{weatherData.main.pressure}hPa</h4>
                         <FaGaugeHigh />
                     </span>
+                    <span className="card-body-info-panel-seperator"></span>
                     <span className="card-body-info-panel">
                         <p>Humidity</p>
                         <h4>{weatherData.main.humidity}%</h4>
                         <FaDroplet />
                     </span>
+                    <span className="card-body-info-panel-seperator"></span>
                     <span className="card-body-info-panel">
                         <p>Visibility</p>
                         <h4>{visibility}km</h4>
