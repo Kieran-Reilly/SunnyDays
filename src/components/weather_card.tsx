@@ -5,7 +5,10 @@ import { fetchWindDirection } from "../types/weatherUtils";
 import { retrieveAllItems } from "../managers/favourites-manager";
 import { getCurrentWeather } from "../managers/weather-manager";
 
-//TODO: JSDocs
+/**
+ * Retrieves the weather for any favourited locations
+ * @returns favouritedWeatherData {Array<CurrentWeather>} - an array of the waether for the corresponding favourited weather locations
+ */
 async function fetchFavouritedWeatherData() {
     const favouriteItems = await retrieveAllItems();
     if (favouriteItems == null) return;
@@ -18,8 +21,16 @@ async function fetchFavouritedWeatherData() {
 
     return favouritedWeatherData;
 }
-
-//TODO: JSDocs
+/**
+ * Given a number of favourites locations, will render a list of weather cards per favourited location
+ * @param currentWeather {CurrentWeather} - Current weather of the location
+ * @param favourites {Array<Number>} - Array of the favourited locations
+ * @param toggleView {Function} - Toggles the view between current weather and 5-day forecast
+ * @param toggleFavourites {Function} - Adds/removes favourited locations
+ * @param activeCard {Number} - The currently active weather card
+ * @param setActiveCard {stateSetter} - Sets the active card state
+ * @returns React Elements {JSX.Element} - A collection of weather cards
+ */
 export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
 
@@ -47,7 +58,17 @@ export function WeatherCards({currentWeather, favourites, toggleView, toggleFavo
 }
 
 
-//TODO: JSDocs
+/**
+ * Weather card component which displays the current weather data for a specific location.
+ * Responsible for toggling the card as active/inactive.
+ * @param weatherData {CurrentWeather} - Current weather of the location
+ * @param favourites {Array<Number>} - Array of the favourited locations
+ * @param toggleView {Function} - Toggles the view between current weather and 5-day forecast
+ * @param toggleFavourites {Function} - Adds/removes favourited locations
+ * @param activeCard {Number} - The currently active weather card
+ * @param setActiveCard {stateSetter} - Sets the active card state
+ * @returns React Elements {JSX.Element} - A weather card
+ */
 export default function WeatherCard({weatherData, favouritedItems, toggleView, toggleFavourites, activeCard, setActiveCard}: {weatherData: CurrentWeather,  favouritedItems: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     /**
      * Toggle Card Click handler which updates the active card

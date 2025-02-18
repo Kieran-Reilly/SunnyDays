@@ -1,8 +1,16 @@
 @media only screen and (max-width: 768px) {
     .forecast-info {
-        min-height: 80%;
+        height: 100%;
         display: flex;
         flex-direction: column;
+        margin: var(--main-margin);
+        padding: var(--main-padding);
+        border-radius: var(--bdr-radius);
+        filter: drop-shadow(var(--main-txt-colour) 0.2rem 0.2rem 0.25rem);
+    }
+
+    .forecast-info, .forecast-info * {
+        background-color: var(--tertiary-bg-colour);
     }
 
     .forecast-header h4 {
@@ -82,6 +90,10 @@
         justify-content: space-evenly;
     }
 
+    .forecast-body-details {
+        margin: var(--dbl-margin) 0;
+    }
+
     .forecast-body-line {
         margin: 1rem 0;
     }
@@ -94,7 +106,11 @@
         justify-content: space-around;
     }
 
+    .forecast-footer button {
+        width: 100%;
+    }
+
     .forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
-        fill: gold;
+        fill: var(--btn-favourites);
     }
 }

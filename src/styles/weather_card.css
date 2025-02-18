@@ -11,7 +11,7 @@
     }
 
     .weather-card[data-favourited='true'] button[class='icon-btn heart'] svg {
-        fill: var(--btn-active-colour);
+        fill: var(--btn-favourites);
     }
     
     .card-header {
