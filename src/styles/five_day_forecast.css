@@ -1,100 +1,129 @@
-@media only screen and (max-width: 768px) {
-    .forecast-info {
-        min-height: 80%;
-        display: flex;
-        flex-direction: column;
-    }
+.forecast-info {
+    display: flex;
+    flex-direction: column;
+    margin: var(--main-margin);
+    padding: var(--main-padding);
+    border-radius: var(--bdr-radius);
+    filter: drop-shadow(var(--main-txt-colour) 0.2rem 0.2rem 0.25rem);
+}
 
-    .forecast-header h4 {
-        text-align: center;
-    }
+.forecast-info, .forecast-info * {
+    background-color: var(--tertiary-bg-colour);
+}
 
-    .forecast-header-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
+.forecast-header h4 {
+    text-align: center;
+}
 
-    .forecast-tabs {
-        flex: 1;
+.forecast-header-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    }
+.forecast-tabs {
+    flex: 1;
 
-    .forecast-tab {
-        width: 100%;
-    }
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
 
-    .forecast-tab:not([data-active='true']) {
-        align-self: center;
-    }
+.forecast-tab {
+    width: 100%;
+}
 
-    .forecast-tab-body {
-        display: none;
-    }
+.forecast-tab:not([data-active='true']) {
+    align-self: center;
+}
 
-    .forecast-tab[data-active='true'] .forecast-tab-header {
-        display: none;
-    }
+.forecast-tab-body {
+    display: none;
+}
 
-    .forecast-tab[data-active='true'] {
-        grid-row-start: 1;
-        grid-row-end: 6;
-    }
+.forecast-tab[data-active='true'] .forecast-tab-header {
+    display: none;
+}
 
-    .forecast-tabs:has(.forecast-tab[data-active='true']) .forecast-tab:not([data-active='true']) {
-        display: none;
-    }
+.forecast-tab[data-active='true'] {
+    grid-row-start: 1;
+    grid-row-end: 6;
+}
 
-    .forecast-tab[data-active='true'] .forecast-tab-body {
-        display: block;
-    }
+.forecast-tabs:has(.forecast-tab[data-active='true']) .forecast-tab:not([data-active='true']) {
+    display: none;
+}
 
-    .forecast-tab-header, .forecast-tab-header span {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.forecast-tab[data-active='true'] .forecast-tab-body {
+    display: block;
+}
 
-    .forecast-tab-header-date {
-        width: 6.5rem;
-        max-width: 6.5rem;
-    }
+.forecast-tab-header, .forecast-tab-header span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    .forecast-tab-header-temps {
-        flex: 1
-    }
+.forecast-tab-header-date {
+    width: 6.5rem;
+    max-width: 6.5rem;
+}
 
-    .forecast-body-header, .forecast-body-main, .forecast-body-line, .forecast-footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.forecast-tab-header-temps {
+    flex: 1
+}
 
-    .forecast-body-header h3 {
-        flex: 1;
-    }
+.forecast-body-header, .forecast-body-main, .forecast-body-line, .forecast-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    .forecast-body-main {
-        justify-content: space-evenly;
-    }
+.forecast-body-header h3 {
+    flex: 1;
+}
 
-    .forecast-body-line {
-        margin: 1rem 0;
-    }
+.forecast-body-main {
+    justify-content: space-evenly;
+}
 
-    .forecast-body-line * {
-        margin: 0 0.25rem;
-    }
+.forecast-body-details {
+    margin: var(--dbl-margin) 0;
+}
 
-    .forecast-footer {
-        justify-content: space-around;
-    }
+.forecast-body-line {
+    margin: 1rem 0;
+}
 
-    .forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
-        fill: gold;
-    }
+.forecast-body-line * {
+    margin: 0 0.25rem;
+}
+
+.forecast-footer {
+    justify-content: space-around;
+}
+
+.forecast-footer button {
+    width: 100%;
+}
+
+.forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
+    fill: var(--btn-favourites);
+}
+
+@media only screen and (min-width: 769px) {
+    .app-main[data-active-view="forecast"] .weather-items .forecast-info {
+        width: 40%;
+        height: 75%;
+      }
+
+      .forecast-tab-header-temps, .forecast-body-main  {
+        justify-content: center;
+      }
+
+      .forecast-body-main img{
+        height: 5rem;
+        width: 5rem;
+      }
 }

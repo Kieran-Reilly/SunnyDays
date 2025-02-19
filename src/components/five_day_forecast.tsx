@@ -2,8 +2,18 @@ import { FaChevronDown, FaChevronUp, FaHeart, FaCloudRain, FaWind, FaGaugeHigh, 
 import { Forecast, ForecastData,  } from "../types/weatherTypes";
 import { useState } from "react";
 import { fetchWindDirection, getDayOfWeek, getMonth, getNextDay } from "../types/weatherUtils";
+import { buildForecastData } from "../managers/weather-manager";
 
-//TODO: JSDocs
+/**
+ * Builds the forecast card's body
+ * @param item {ForecastData} - Forecast data used to populate the body's elements
+ * @param date {Date} - The date for this forecast
+ * @param dayOfTheWeek {string} - The corresponding day of the week for this forecast
+ * @param month {string} - The corresponding month for this forecast
+ * @param weatherInfoIcon {string} - The corresponding weather icon
+ * @param toggleTabs {React.MouseEventHandler} - Toggle tabs click handler for toggling which forecast is active
+ * @returns React Elements {JSX.Element} -The forecast card's body and it's subcomponents
+ */
 function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, toggleTabs}: {item: ForecastData, date: Date, dayOfTheWeek: string, month: string, weatherInfoIcon: string, toggleTabs: React.MouseEventHandler}) {
     const rain = item?.rain != null ? item?.rain["3h"] : 0;
     const snow = item?.snow != null ? item?.snow["3h"] : 0;
@@ -62,7 +72,13 @@ function ForecastCardBody({item, date, dayOfTheWeek, month, weatherInfoIcon, tog
     )
 }
 
-//TODO: JSDocs
+/**
+ * Builds a forecast card with the relevant data for a 5-day forecast
+ * @param forecastData {Array<ForecastData>} - Array for forecast data for a 5 day weather forecast
+ * @param toggleTabs {React.MouseEventHandler} - Toggle tabs click event handler
+ * @param activeTab {Number} - The currently active forecast tab
+ * @returns React Elements {JSX.Element} -The forecast card and it's subcomponents
+ */
 function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: ForecastData[], toggleTabs: React.MouseEventHandler, activeTab: Number }) {
     const forecastDataItems = forecastData.map(item => {
         const date = new Date(item.dt * 1000); 
@@ -101,11 +117,22 @@ function ForecastCard({ forecastData, toggleTabs, activeTab}: { forecastData: Fo
     )
 }
 
-//TODO: JSDocs
+/**
+ * The main five day forecast component that is responsible for rendering the component
+ * and its subcomponents as well as controlling which tabs are active
+ * @param forecastInfo {Forecast} - forecast information that will be used to populate the forecast card and its subcomponents
+ * @param toggleView {React.MouseEventHandler} - Toggle View click handler which toggles between the current weather and the 5-day forecast views
+ * @param toggleFavourites {React.MouseEventHandler} - Toggle favourites click handler which adds/removes locations from favourites
+ * @param favouritedItems {Array<Number>} - An array of the already favourited locatiosn
+ * @returns React Elements {JSX.Element} - The 5 day forecast and its subcomponents
+ */
 export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavourites, favouritedItems}: { forecastInfo: Forecast, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, favouritedItems: Array<Number>}) {
     const [activeTab, setActiveTab] = useState(-1);
 
-    //TODO: JSDocs
+    /**
+     * Responsible for toggling the active forecast tab
+     * @param event {React.MouseEvent} - Click event
+     */
     function toggleTabs(event: React.MouseEvent) {
         const target = event.target as HTMLElement;
         const selectedTab = target.parentElement?.parentElement?.parentElement;
@@ -139,69 +166,4 @@ export default function FiveDayForecast({ forecastInfo, toggleView, toggleFavour
             </div>
         </div>
     )
-}
-
-//TODO: Maybe move this out to weather manager
-/**
- * Builds up data for a 5-day forecast which will be used to populate the individual forecast-content
- * @param forecastInfo {Forecast} - an instance of the Forecast interface containing forecast data
- * @return forecastData {ForecastData[]} - an array of ForecastData instances, 1 for each day for the next 5 days after the current day 
- */
-function buildForecastData(forecastInfo: Forecast) {
-    const forecastData = [];
-    
-    //get tomorrow at 12
-    const currentDate = new Date();
-    currentDate.setUTCHours(12,0,0,0);
-    let nextDay = getNextDay(currentDate);
-
-    for (const item of forecastInfo.list) {
-        const itemDate = new Date(item.dt * 1000);
-        //find highest and lowest temps for the day
-        setMinMaxTemps(item, itemDate, forecastInfo);
-
-        if (itemDate.getTime() == nextDay.getTime()) {
-            //add this item to forecastData
-            forecastData.push(item);
-            nextDay = getNextDay(nextDay);
-            continue;
-        }
-
-        if (forecastInfo.list.indexOf(item) === forecastInfo.list.length - 1 && forecastData.length == 4) {
-            //add last data point
-            forecastData.push(item);
-        }
-    }
-
-    return forecastData;
-}
-
-
-//TODO: Maybe move this out to weather manager
-/**
- * Given a specific ForecastData item, finds the min and max temps for dates within the data for that particular day
- * @param item {ForecastData} - a ForecastData item containing weather information for a particular day within a 5-day forecast
- * @param itemDate {Date} - the date of a particular forecast data item
- * @param forecastInfo {Forecast} - forecast information made up of ForecastData items for a 5-day forecast
- */
-function setMinMaxTemps(item: ForecastData, itemDate: Date, forecastInfo: Forecast) {
-    let lowestTemp = item.main.temp_min;
-    let highestTemp = item.main.temp_max;
-    for (const listItem of forecastInfo.list) {
-        const listItemDate = new Date(listItem.dt * 1000);
-        if (listItemDate.getDate() != itemDate.getDate()) {
-            continue;
-        }
-
-        if (listItem.main.temp_min < lowestTemp) {
-            lowestTemp = listItem.main.temp_min;
-        };
-
-        if (listItem.main.temp_max > highestTemp) {
-            highestTemp = listItem.main.temp_max;
-        }
-    }
-    
-    item.main.max_day_temp = highestTemp;
-    item.main.min_day_temp = lowestTemp;
 }

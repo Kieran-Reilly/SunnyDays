@@ -7,7 +7,15 @@ import FiveDayForecast from "./components/five_day_forecast";
 import { addToDB, removeFromDB } from "./managers/favourites-manager";
 import SearchInput from "./components/search_input";
 
-//TODO: JSDocs
+/**
+ * The heart of the application.
+ * Responsible for the intial rendering of the sub components, 
+ * toggling the view between the current weather and location specific 5-day forecast,
+ * as well as handling saving/removing favourites
+ * @param weather {CurrentWeather} - the current weather for the specified location to be displayed
+ * @param favourites {Array<Number>} - the collection of favourited location IDs
+ * @returns React Elements {JSX.Element} - the application's components and sub components
+ */
 export default function app({weather, favourites}: {weather: CurrentWeather, favourites: Array<Number>}) {
     const [currentView, setCurrentView] = useState('currentWeather');
     const [forecastData, setForecastData] = useState(null);
@@ -15,7 +23,10 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     const [favouritedItemIDs, setFavouritedItems] = useState(favourites);
     const [activeCard, setActiveCard] = useState(weather.id);
 
-    //TODO: JSDocs
+    /**
+     * Toggle view click event handler which toggles between the current weather and 5-day forecast views
+     * @param event {React.MouseEvent} - Click event
+     */
     async function toggleView(event: React.MouseEvent) {
         if (currentView === 'currentWeather') {
             const target = event.target as HTMLElement;
@@ -26,7 +37,6 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
             const requestResult = await getForecast(lat, lon);
             setForecastData(requestResult);
             setCurrentView('forecast');
-            return;
         }
 
         if (currentView === 'forecast') {
@@ -38,7 +48,10 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
         }
     }
 
-    //TODO: JSDocs    
+    /**
+     * Toggle Favourites click event handler which adds/removes locations from favourites
+     * @param event {React.MouseEvent} - Click event
+     */
     async function toggleFavourites(event: React.MouseEvent) {
         const target = event.target as HTMLElement;
         const selectedCard = target.parentElement?.parentElement?.parentElement;
@@ -58,16 +71,18 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     return (
         <>
             <div className="app-header">
-                <img src=".\src\assets\g19521.png"></img>
+                <img src=".\src\assets\text5577.png"></img>
             </div>
             <div className="app-main" data-active-view={currentView}>
                 <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>
-                {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>}
-                {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && 
-                    <div className="favourites">
-                        <WeatherCards currentWeather={currentWeather} favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>
-                    </div>}
-                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
+                <div className="weather-items">
+                    {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>}
+                    {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && 
+                        <div className="favourites">
+                            <WeatherCards currentWeather={currentWeather} favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>
+                        </div>}
+                    {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
+                </div>
             </div>
             <div className="app-footer">
                 <p>Developed by Kieran Reilly</p>
