@@ -57,7 +57,7 @@ function locationRetrievedError(error: GeolocationPositionError): Location {
  * Kicks of the render process of the application, handing the retrieve weather data to the app component.
  * @param currentWeather {CurrentWeather} - The current weather for the location that was retrieved
  */
-function render(currentWeather: CurrentWeather) {
+function render(currentWeather: CurrentWeather, favourites:Array<Number>) {
   console.log("rendering");
   const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
   root.render(
@@ -67,14 +67,9 @@ function render(currentWeather: CurrentWeather) {
   );
 }
 
-// need to retrieve location | have a fallback location to be used in retrieving weather data
-const currentLocation = await getCurrentLocation(locationRetrievedSuccess, locationRetrievedError);
-
-// once location is defined, need to retrieve weather data for that location
-const currentWeather = await getCurrentWeather(currentLocation.coords.latitude, currentLocation.coords.longitude);
-
-//retrieve all the favourited items within the LocationsDB
-const favourites = await retrieveAllIDs() || new Array<Number>;
-
-// once weather data is retrieve, need to pass that on to App for rendering
-render(currentWeather);
+getCurrentLocation(locationRetrievedSuccess, locationRetrievedError)
+  .then(async (currentLocation) => {
+    const currentWeather = await getCurrentWeather(currentLocation.coords.latitude, currentLocation.coords.longitude)
+    const favourites = await retrieveAllIDs() || new Array<Number>;
+    render(currentWeather, favourites);
+  });
