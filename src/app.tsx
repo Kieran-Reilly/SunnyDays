@@ -71,7 +71,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     return (
         <>
             <div className="app-header">
-                <img src=".\src\assets\text5577.png"></img>
+                <img src="/assets/text5577.png"></img>
             </div>
             <div className="app-main" data-active-view={currentView}>
                 <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>
