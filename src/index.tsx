@@ -8,6 +8,22 @@ import { CurrentWeather } from './types/weatherTypes';
 import { Location } from './types/locationTypes';
 import { retrieveAllIDs } from './managers/favourites-manager';
 
+
+function checkIfUserIsOnMobileDevice(userAgent: string) {
+  if (userAgent.includes('mobi') || userAgent.includes('tablet')) {  
+     return true;
+  }
+  return false;
+}
+const userAgent = navigator.userAgent.toLowerCase();
+const userIsOnMobileDevice = checkIfUserIsOnMobileDevice(userAgent);
+if(userIsOnMobileDevice) {
+    globalThis.onMobile = true;
+} else {
+    globalThis.onMobile = false;
+}
+
+
 /**
  * Location retrieved successfully handler which returns the latitude and longitude of a specified location
  * @param position {Location} - the latitude and longitude of the specified location

@@ -1,52 +1,64 @@
+.search-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 2rem;
+  margin: var(--main-margin);
+}
+
+.search-container input {
+  flex: 1;
+  background-color: var(--main-input-colour);
+  border: none;
+  border-radius: var(--bdr-radius) 0 0 var(--bdr-radius);
+}
+
+.search-container button:not(.icon-btn) {
+  border-radius:  0 var(--bdr-radius) var(--bdr-radius) 0;
+}
+
+.search-container:has(.clear-btn) .search-btn {
+  border-radius: 0;
+}
+
+.search-results {
+  margin-top: 2rem;
+  padding: 0;
+  position: absolute;
+  width: calc(100% - calc(var(--main-margin)*2));
+  z-index: 2;
+}
+
+.search-results li {
+  height: 2rem;
+  margin: var(--main-margin) 0;
+  padding: 0 var(--main-padding);
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-results, .search-results li, .search-results li span {
+  background-color: var(--secondary-bg-colour);
+} 
+
+.search-results li span {
+  pointer-events: none;
+}
+
+.search-result-secondary {
+  color: grey;
+}
+
+
+@media only screen and (min-width: 769px) {
   .search-container {
-    display: flex;
-    flex-direction: row;
-    min-height: 2rem;
-    margin: var(--main-margin);
-  }
-
-  .search-container input {
-    flex: 1;
-    background-color: var(--main-input-colour);
-    border: none;
-    border-radius: var(--bdr-radius) 0 0 var(--bdr-radius);
-  }
-
-  .search-container button:not(.icon-btn) {
-    border-radius:  0 var(--bdr-radius) var(--bdr-radius) 0;
-  }
-
-  .search-container:has(.clear-btn) .search-btn {
-    border-radius: 0;
+    min-width: 40%;
+    align-self: center;
   }
 
   .search-results {
-    margin-top: 2rem;
-    padding: 0;
-    position: absolute;
-    width: calc(100% - calc(var(--main-margin)*2));
-    z-index: 2;
+    width: calc(40% + var(--main-margin) / 2);
   }
-
-  .search-results li {
-    height: 2rem;
-    margin: var(--main-margin) 0;
-    padding: 0 var(--main-padding);
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .search-results, .search-results li, .search-results li span {
-    background-color: var(--secondary-bg-colour);
-  } 
-
-  .search-results li span {
-    pointer-events: none;
-  }
-
-  .search-result-secondary {
-    color: grey;
-  }
+}

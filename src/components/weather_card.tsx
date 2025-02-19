@@ -90,8 +90,8 @@ export default function WeatherCard({weatherData, favouritedItems, toggleView, t
     const iconCode = weatherData.weather[0].icon;
     
     const currentDate = weatherData.date || new Date();
-    const rain = weatherData?.rain != null ? weatherData?.rain["1h"] : 0;
-    const snow = weatherData?.snow != null ? weatherData?.snow["1h"] : 0;
+    const rain = weatherData?.rain != null ? weatherData?.rain["3h"] : 0;
+    const snow = weatherData?.snow != null ? weatherData?.snow["3h"] : 0;
     const windDirection = fetchWindDirection(weatherData.wind.deg);
     const visibility = weatherData.visibility/1000;
     const isFavourited = favouritedItems.indexOf(weatherData.id) != -1 ? true : false;
@@ -109,72 +109,76 @@ export default function WeatherCard({weatherData, favouritedItems, toggleView, t
                     <span className="card-header-info" data-is-open="false">
                         <h3>{weatherData.name}</h3>
                         <span>
-                            <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                            <p>{Math.round(weatherData.main.temp)}°C</p>
+                            { globalThis.onMobile == true ? (
+                                <>
+                                    <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
+                                    <p>{Math.round(weatherData.main.temp)}°C</p>
+                                </>
+                            ) : null}
                         </span>
                     </span>
                 ) }
                 <span className="card-header-buttons">
-                    <button className="icon-btn" onClick={toggleCard}>{activeCard == weatherData.id ? <FaChevronUp /> : <FaChevronDown />}</button>
+                    { globalThis.onMobile == true ? <button className="icon-btn" onClick={toggleCard}>{activeCard == weatherData.id ? <FaChevronUp /> : <FaChevronDown />}</button> : null}
                     <button className="icon-btn heart" onClick={toggleFavourites}><FaHeart /></button>
                 </span>
             </div>
-            { activeCard == weatherData.id ? (
-                <div className="card-body">
-                <div className="card-body-highlight">
-                    <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
-                    <p>{Math.round(weatherData.main.temp)}°C</p>
-                </div>
-                <div className="card-body-info">
-                    {rain !== 0 ? (
-                        <>
+            { activeCard == weatherData.id || globalThis.onMobile == false ? (
+                <>
+                    <div className="card-body">
+                        <div className="card-body-highlight">
+                            <img src={`http://openweathermap.org/img/wn/${iconCode}.png`}></img>
+                            <p>{Math.round(weatherData.main.temp)}°C</p>
+                        </div>
+                        <div className="card-body-info">
+                            {rain !== 0 ? (
+                                <>
+                                    <span className="card-body-info-panel">
+                                        <p>Expected amount of rain</p>
+                                        <h4>{rain}mm/h</h4>
+                                        <FaCloudRain />
+                                    </span>
+                                    <span className="card-body-info-panel-seperator"></span>
+                                </>
+                            ) : null}
+                            {snow !== 0 ? (
+                                <>
+                                    <span className="card-body-info-panel">
+                                    <p>Expected amount of snow</p>
+                                    <h4>{snow}mm/h</h4>
+                                    <FaRegSnowflake />
+                                    </span>
+                                    <span className="card-body-info-panel-seperator"></span>
+                                </>
+                            ) : null}
                             <span className="card-body-info-panel">
-                                <p>Expected amount of rain</p>
-                                <h4>{rain}mm/h</h4>
-                                <FaCloudRain />
+                                <p>Wind speed & direction</p>
+                                <h4>{weatherData.wind.speed}m/s {windDirection}</h4>
+                                <FaWind />
                             </span>
                             <span className="card-body-info-panel-seperator"></span>
-                        </>
-                    ) : null}
-                    {snow !== 0 ? (
-                        <>
                             <span className="card-body-info-panel">
-                            <p>Expected amount of snow</p>
-                            <h4>{snow}mm/h</h4>
-                            <FaRegSnowflake />
+                                <p>Pressure</p>
+                                <h4>{weatherData.main.pressure}hPa</h4>
+                                <FaGaugeHigh />
                             </span>
                             <span className="card-body-info-panel-seperator"></span>
-                        </>
-                    ) : null}
-                    <span className="card-body-info-panel">
-                        <p>Wind speed & direction</p>
-                        <h4>{weatherData.wind.speed}m/s {windDirection}</h4>
-                        <FaWind />
-                    </span>
-                    <span className="card-body-info-panel-seperator"></span>
-                    <span className="card-body-info-panel">
-                        <p>Pressure</p>
-                        <h4>{weatherData.main.pressure}hPa</h4>
-                        <FaGaugeHigh />
-                    </span>
-                    <span className="card-body-info-panel-seperator"></span>
-                    <span className="card-body-info-panel">
-                        <p>Humidity</p>
-                        <h4>{weatherData.main.humidity}%</h4>
-                        <FaDroplet />
-                    </span>
-                    <span className="card-body-info-panel-seperator"></span>
-                    <span className="card-body-info-panel">
-                        <p>Visibility</p>
-                        <h4>{visibility}km</h4>
-                        <FaEye />
-                    </span>
-                </div>
-            </div>
+                            <span className="card-body-info-panel">
+                                <p>Humidity</p>
+                                <h4>{weatherData.main.humidity}%</h4>
+                                <FaDroplet />
+                            </span>
+                            <span className="card-body-info-panel-seperator"></span>
+                            <span className="card-body-info-panel">
+                                <p>Visibility</p>
+                                <h4>{visibility}km</h4>
+                                <FaEye />
+                            </span>
+                        </div>
+                    </div>
+                    <div className="card-footer"><button onClick={toggleView}>5 Day Forecast</button></div>
+                </>
             ) : null}
-            { activeCard == weatherData.id ? (
-                <div className="card-footer"><button onClick={toggleView}>5 Day Forecast</button></div>
-            ) : null }
         </div>
     )
 }

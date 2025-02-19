@@ -134,8 +134,12 @@
     flex-direction: column;
   }
 
-  .app-main .favourites {
+  .app-main .weather-items {
     overflow: scroll;
+  }
+
+  .app-main[data-active-view="forecast"] .weather-items {
+    overflow: unset;
   }
 
   .app-footer {
@@ -154,3 +158,29 @@
 
 
 
+  @media only screen and (min-width: 769px) {
+    .app-main .weather-items {
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+      height: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .app-main .favourites {
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      max-width: 50%;
+      margin-top: var(--dbl-margin);
+    }
+
+    .app-footer {
+      justify-content: center;
+    }
+
+    .app-main[data-active-view="forecast"] .weather-items {
+      justify-content: center;
+    }
+  }

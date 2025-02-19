@@ -75,12 +75,14 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
             </div>
             <div className="app-main" data-active-view={currentView}>
                 <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>
-                {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>}
-                {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && 
-                    <div className="favourites">
-                        <WeatherCards currentWeather={currentWeather} favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>
-                    </div>}
-                {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
+                <div className="weather-items">
+                    {currentView === 'currentWeather' && <WeatherCard weatherData={currentWeather} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>}
+                    {currentView === 'currentWeather' && favouritedItemIDs.length > 0 && 
+                        <div className="favourites">
+                            <WeatherCards currentWeather={currentWeather} favourites={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}/>
+                        </div>}
+                    {currentView === 'forecast' && forecastData != null && <FiveDayForecast forecastInfo={forecastData} favouritedItems={favouritedItemIDs} toggleView={toggleView} toggleFavourites={toggleFavourites}></FiveDayForecast>}
+                </div>
             </div>
             <div className="app-footer">
                 <p>Developed by Kieran Reilly</p>

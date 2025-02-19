@@ -1,116 +1,129 @@
-@media only screen and (max-width: 768px) {
-    .forecast-info {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        margin: var(--main-margin);
-        padding: var(--main-padding);
-        border-radius: var(--bdr-radius);
-        filter: drop-shadow(var(--main-txt-colour) 0.2rem 0.2rem 0.25rem);
-    }
+.forecast-info {
+    display: flex;
+    flex-direction: column;
+    margin: var(--main-margin);
+    padding: var(--main-padding);
+    border-radius: var(--bdr-radius);
+    filter: drop-shadow(var(--main-txt-colour) 0.2rem 0.2rem 0.25rem);
+}
 
-    .forecast-info, .forecast-info * {
-        background-color: var(--tertiary-bg-colour);
-    }
+.forecast-info, .forecast-info * {
+    background-color: var(--tertiary-bg-colour);
+}
 
-    .forecast-header h4 {
-        text-align: center;
-    }
+.forecast-header h4 {
+    text-align: center;
+}
 
-    .forecast-header-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
+.forecast-header-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .forecast-tabs {
-        flex: 1;
+.forecast-tabs {
+    flex: 1;
 
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    }
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
 
-    .forecast-tab {
-        width: 100%;
-    }
+.forecast-tab {
+    width: 100%;
+}
 
-    .forecast-tab:not([data-active='true']) {
-        align-self: center;
-    }
+.forecast-tab:not([data-active='true']) {
+    align-self: center;
+}
 
-    .forecast-tab-body {
-        display: none;
-    }
+.forecast-tab-body {
+    display: none;
+}
 
-    .forecast-tab[data-active='true'] .forecast-tab-header {
-        display: none;
-    }
+.forecast-tab[data-active='true'] .forecast-tab-header {
+    display: none;
+}
 
-    .forecast-tab[data-active='true'] {
-        grid-row-start: 1;
-        grid-row-end: 6;
-    }
+.forecast-tab[data-active='true'] {
+    grid-row-start: 1;
+    grid-row-end: 6;
+}
 
-    .forecast-tabs:has(.forecast-tab[data-active='true']) .forecast-tab:not([data-active='true']) {
-        display: none;
-    }
+.forecast-tabs:has(.forecast-tab[data-active='true']) .forecast-tab:not([data-active='true']) {
+    display: none;
+}
 
-    .forecast-tab[data-active='true'] .forecast-tab-body {
-        display: block;
-    }
+.forecast-tab[data-active='true'] .forecast-tab-body {
+    display: block;
+}
 
-    .forecast-tab-header, .forecast-tab-header span {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.forecast-tab-header, .forecast-tab-header span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    .forecast-tab-header-date {
-        width: 6.5rem;
-        max-width: 6.5rem;
-    }
+.forecast-tab-header-date {
+    width: 6.5rem;
+    max-width: 6.5rem;
+}
 
-    .forecast-tab-header-temps {
-        flex: 1
-    }
+.forecast-tab-header-temps {
+    flex: 1
+}
 
-    .forecast-body-header, .forecast-body-main, .forecast-body-line, .forecast-footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.forecast-body-header, .forecast-body-main, .forecast-body-line, .forecast-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    .forecast-body-header h3 {
-        flex: 1;
-    }
+.forecast-body-header h3 {
+    flex: 1;
+}
 
-    .forecast-body-main {
-        justify-content: space-evenly;
-    }
+.forecast-body-main {
+    justify-content: space-evenly;
+}
 
-    .forecast-body-details {
-        margin: var(--dbl-margin) 0;
-    }
+.forecast-body-details {
+    margin: var(--dbl-margin) 0;
+}
 
-    .forecast-body-line {
-        margin: 1rem 0;
-    }
+.forecast-body-line {
+    margin: 1rem 0;
+}
 
-    .forecast-body-line * {
-        margin: 0 0.25rem;
-    }
+.forecast-body-line * {
+    margin: 0 0.25rem;
+}
 
-    .forecast-footer {
-        justify-content: space-around;
-    }
+.forecast-footer {
+    justify-content: space-around;
+}
 
-    .forecast-footer button {
-        width: 100%;
-    }
+.forecast-footer button {
+    width: 100%;
+}
 
-    .forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
-        fill: var(--btn-favourites);
-    }
+.forecast-info[data-favourited='true'] button[class='icon-btn heart'] svg {
+    fill: var(--btn-favourites);
+}
+
+@media only screen and (min-width: 769px) {
+    .app-main[data-active-view="forecast"] .weather-items .forecast-info {
+        width: 40%;
+        height: 75%;
+      }
+
+      .forecast-tab-header-temps, .forecast-body-main  {
+        justify-content: center;
+      }
+
+      .forecast-body-main img{
+        height: 5rem;
+        width: 5rem;
+      }
 }
