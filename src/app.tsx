@@ -6,6 +6,7 @@ import {getForecast } from "./managers/weather-manager";
 import FiveDayForecast from "./components/five_day_forecast";
 import { addToDB, removeFromDB } from "./managers/favourites-manager";
 import SearchInput from "./components/search_input";
+import logo from "./assets/text5577.png";
 
 /**
  * The heart of the application.
@@ -71,7 +72,7 @@ export default function app({weather, favourites}: {weather: CurrentWeather, fav
     return (
         <>
             <div className="app-header">
-                <img src="/assets/text5577.png"></img>
+                <img src={logo}></img>
             </div>
             <div className="app-main" data-active-view={currentView}>
                 <SearchInput currentWeather={currentWeather} weather={weather} setCurrentWeather={setCurrentWeather} setCurrentView={setCurrentView} setActiveCard={setActiveCard}></SearchInput>
