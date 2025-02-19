@@ -37,7 +37,7 @@ export async function getCurrentLocation (
  * @returns 
  */
 export async function getLocation (location: string ) {
-    const result = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=9abcaf69d758c66e9c57d5b4775cf765`)
+    const result = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=9abcaf69d758c66e9c57d5b4775cf765`)
         .then((response) => {return response.json()})
         .then((result) => {return result})
         .catch((error) => {
