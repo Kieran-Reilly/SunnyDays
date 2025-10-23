@@ -34,25 +34,30 @@ async function fetchFavouritedWeatherData() {
 export function WeatherCards({currentWeather, favourites, toggleView, toggleFavourites, activeCard, setActiveCard}: {currentWeather: CurrentWeather, favourites: Array<Number>, toggleView: React.MouseEventHandler, toggleFavourites: React.MouseEventHandler, activeCard: Number, setActiveCard: React.Dispatch<React.SetStateAction<number>>}) {
     const [weatherData, setWeatherData] = useState(new Array<CurrentWeather>);
 
+
+    let favouriteWeatherItems;
     if (weatherData.length != favourites.length) {
         fetchFavouritedWeatherData()
         .then((result) => {
             result != null && setWeatherData(result);
         })
     }
-    
-    const favouriteWeatherItems = weatherData.map((item) => {
-        if (currentWeather.id != item.id) {
-            return (
-                <WeatherCard key={item.id} weatherData={item} favouritedItems={favourites} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}> 
-                </WeatherCard>
-            )
-        }
-    })
 
     return (
         <>
-            {favouriteWeatherItems}
+        {favourites.map((id) => {
+        const item = weatherData.find(weatherDataItem => weatherDataItem.id == id);
+
+        if (item == null) {
+                //loading card
+                return (<p>loading</p>)
+        } else if (currentWeather.id != item.id) {
+                return (
+                    <WeatherCard key={item.id} weatherData={item} favouritedItems={favourites} toggleView={toggleView} toggleFavourites={toggleFavourites} activeCard={activeCard} setActiveCard={setActiveCard}> 
+                    </WeatherCard>
+                )
+            }
+        })}
         </>
     )
 }
